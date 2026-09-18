@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ===== Khoảng cách (lưới 4dp, ưu tiên 8dp) ===== -->
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+    <dimen name="space_20">20dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="space_32">32dp</dimen>
+
+    <!-- Padding ngang mặc định của MỌI màn hình -->
+    <dimen name="screen_padding_h">20dp</dimen>
+    <!-- Khoảng cách giữa 2 card trong danh sách -->
+    <dimen name="card_gap">12dp</dimen>
+
+    <!-- ===== Bo góc ===== -->
+    <dimen name="radius_8">8dp</dimen>
+    <dimen name="radius_12">12dp</dimen>
+    <dimen name="radius_16">16dp</dimen>
+    <dimen name="radius_20">20dp</dimen>
+
+    <!-- ===== Chiều cao chạm ===== -->
+    <dimen name="height_button_52">52dp</dimen>
+    <dimen name="height_input_52">52dp</dimen>
+    <dimen name="height_chip_36">36dp</dimen>
+    <dimen name="height_bottom_bar_64">64dp</dimen>
+    <dimen name="height_toolbar_56">56dp</dimen>
+
+    <!-- ===== Viền & bóng ===== -->
+    <dimen name="stroke_1">1dp</dimen>
+    <dimen name="elevation_card_1">1dp</dimen>
+    <dimen name="elevation_bottom_bar_8">8dp</dimen>
+
+    <!-- ===== Kích thước icon / ảnh hay dùng ===== -->
+    <dimen name="icon_16">16dp</dimen>
+    <dimen name="icon_20">20dp</dimen>
+    <dimen name="icon_24">24dp</dimen>
+    <dimen name="icon_empty_56">56dp</dimen>
+    <dimen name="avatar_40">40dp</dimen>
+    <dimen name="avatar_72">72dp</dimen>
+    <dimen name="image_card_h_180">180dp</dimen>
+    <dimen name="image_header_h_280">280dp</dimen>
+</resources>

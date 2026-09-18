@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ===== Cơ bản ===== -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- ===== Navy: màu chủ đạo ===== -->
+    <color name="navy">#0F2A47</color>
+    <color name="navy_light">#1E3A5F</color>
+    <color name="navy_dark">#081B30</color>
+
+    <!-- ===== Gold: màu nhấn ===== -->
+    <color name="gold">#C9A961</color>
+    <color name="gold_dark">#A6853C</color>
+    <color name="gold_light">#DFCA8F</color>
+    <color name="gold_subtle">#FBF6EB</color>
+
+    <!-- ===== Nền & bề mặt ===== -->
+    <color name="cream">#FAF9F6</color>
+    <color name="cream_60">#99FAF9F6</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F2EFE9</color>
+    <color name="line">#E5E0D8</color>
+
+    <!-- ===== Chữ ===== -->
+    <color name="ink">#1A1A1A</color>
+    <color name="muted">#6B6B6B</color>
+    <color name="faint">#9E9E9E</color>
+
+    <!-- ===== 5 cặp màu trạng thái (chữ / nền) ===== -->
+    <color name="status_green_text">#1B8755</color>
+    <color name="status_green_bg">#E8F5E9</color>
+
+    <color name="status_orange_text">#D97706</color>
+    <color name="status_orange_bg">#FEF3C7</color>
+
+    <color name="status_blue_text">#2563EB</color>
+    <color name="status_blue_bg">#EFF6FF</color>
+
+    <color name="status_purple_text">#7E22CE</color>
+    <color name="status_purple_bg">#F3E8FF</color>
+
+    <color name="status_red_text">#DC2626</color>
+    <color name="status_red_bg">#FEE2E2</color>
+
+    <!-- Badge VIP / HOT: dùng lại gold_dark trên nền gold_subtle -->
+    <color name="status_gold_text">#A6853C</color>
+    <color name="status_gold_bg">#FBF6EB</color>
+
+    <!-- ===== Màu trong suốt / phủ ảnh ===== -->
+    <color name="scrim_40">#66000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================
+         1) TEXT APPEARANCE — thang chữ BLOCK DS mục 3
+         ============================================================ -->
+
+    <style name="TextAppearance.Lumina.Display" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">@font/playfair_display_bold</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.H1" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/navy</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.H2" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/navy</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.BodySm" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.Caption" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/muted</item>
+    </style>
+
+    <!-- Nhãn form: "HỌ VÀ TÊN", "EMAIL"... -->
+    <style name="TextAppearance.Lumina.Label" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+
+    <!-- Nhãn trang trí: "HOTEL & RESORT", "ƯU ĐÃI MÙA THU" -->
+    <style name="TextAppearance.Lumina.Overline" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/gold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.Price" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/navy</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.Price.Small">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gold</item>
+    </style>
+
+    <!-- ============================================================
+         2) NÚT — mục 5.a-d BLOCK DS
+         ============================================================ -->
+
+    <style name="ShapeAppearance.Lumina.Button" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">@dimen/radius_12</item>
+    </style>
+
+    <style name="Widget.Lumina.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:layout_height">@dimen/height_button_52</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/navy</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Lumina.Button</item>
+        <item name="cornerRadius">@dimen/radius_12</item>
+    </style>
+
+    <style name="Widget.Lumina.Button.Gold" parent="Widget.Lumina.Button.Primary">
+        <item name="backgroundTint">@color/gold</item>
+        <item name="android:textColor">@color/navy</item>
+    </style>
+
+    <style name="Widget.Lumina.Button.Outline" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_height">@dimen/height_button_52</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/navy</item>
+        <item name="strokeColor">@color/line</item>
+        <item name="strokeWidth">@dimen/stroke_1</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Lumina.Button</item>
+        <item name="cornerRadius">@dimen/radius_12</item>
+        <item name="backgroundTint">@color/transparent</item>
+    </style>
+
+    <style name="Widget.Lumina.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gold_dark</item>
+    </style>
+
+    <!-- ============================================================
+         3) CARD — mục 4 BLOCK DS
+         ============================================================ -->
+
+    <style name="Widget.Lumina.Card" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="cardCornerRadius">@dimen/radius_12</item>
+        <item name="strokeWidth">@dimen/stroke_1</item>
+        <item name="strokeColor">@color/line</item>
+        <item name="cardElevation">@dimen/elevation_card_1</item>
+    </style>
+
+    <!-- ============================================================
+         4) INPUT — mục 5.e BLOCK DS
+         (cần res/color/selector_input_stroke.xml đi kèm bên dưới)
+         ============================================================ -->
+
+    <style name="ShapeAppearance.Lumina.Input" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">@dimen/radius_12</item>
+    </style>
+
+    <style name="Widget.Lumina.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/cream</item>
+        <item name="boxStrokeColor">@color/selector_input_stroke</item>
+        <item name="hintEnabled">false</item>
+        <item name="startIconTint">@color/muted</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Lumina.Input</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_12</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_12</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_12</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_12</item>
+    </style>
+
+    <style name="Widget.Lumina.TextInput.EditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:layout_height">@dimen/height_input_52</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textColorHint">@color/faint</item>
+    </style>
+
+    <!-- ============================================================
+         5) BADGE trạng thái — mục 5.f BLOCK DS
+         Nền/màu chữ set động qua StatusUtils.java (PROMPT #3),
+         style này chỉ cố định phần khung/chữ dùng chung.
+         ============================================================ -->
+
+    <style name="Widget.Lumina.Badge" parent="">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingStart">@dimen/space_8</item>
+        <item name="android:paddingEnd">@dimen/space_8</item>
+        <item name="android:paddingTop">@dimen/space_4</item>
+        <item name="android:paddingBottom">@dimen/space_4</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- ============================================================
+         6) CHIP LỌC — mục 5.g BLOCK DS
+         (app:chipBackgroundColor/app:chipStrokeColor dùng selector,
+         sẽ cung cấp ở phần drawable/ tiếp theo — tạm khai báo tên ở đây)
+         ============================================================ -->
+
+    <style name="Widget.Lumina.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="android:layout_height">@dimen/height_chip_36</item>
+        <item name="chipCornerRadius">@dimen/radius_20</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipStrokeColor">@color/line</item>
+        <item name="chipStrokeWidth">@dimen/stroke_1</item>
+        <item name="checkedIconVisible">false</item>
+    </style>
+
+    <!-- ============================================================
+         7) BOTTOM NAVIGATION — mục 5.k BLOCK DS
+         ============================================================ -->
+
+    <style name="Widget.Lumina.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/surface</item>
+        <item name="elevation">@dimen/elevation_bottom_bar_8</item>
+        <item name="itemIconTint">@color/selector_bottom_nav</item>
+        <item name="itemTextColor">@color/selector_bottom_nav</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Lumina.BottomNavLabel</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Lumina.BottomNavLabel</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <style name="TextAppearance.Lumina.BottomNavLabel" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Lumina.Corner12" parent="">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Lumina.RoundedCorner12" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+</resources>

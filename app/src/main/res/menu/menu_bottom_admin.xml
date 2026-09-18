@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_admin_dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="@string/nav_admin_dashboard" />
+    <item
+        android:id="@+id/nav_admin_room_type"
+        android:icon="@drawable/ic_category"
+        android:title="@string/nav_admin_room_type" />
+    <item
+        android:id="@+id/nav_admin_room"
+        android:icon="@drawable/ic_bed"
+        android:title="@string/nav_admin_room" />
+    <item
+        android:id="@+id/nav_admin_booking"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/nav_admin_booking" />
+    <item
+        android:id="@+id/nav_admin_customer"
+        android:icon="@drawable/ic_users"
+        android:title="@string/nav_admin_customer" />
+</menu>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="40dp"
+    android:background="@color/cream"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/ivEmpty"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_empty_box"
+        app:tint="@color/faint"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/tvEmptyTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Lumina.Title"
+        android:text="@string/empty_title_default" />
+
+    <TextView
+        android:id="@+id/tvEmptyDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.4"
+        android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+        android:text="@string/empty_desc_default" />
+
+    <Button
+        android:id="@+id/btnEmptyAction"
+        style="@style/Widget.Lumina.Button.Outline"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:text="@string/empty_action_default" />
+
+</LinearLayout>

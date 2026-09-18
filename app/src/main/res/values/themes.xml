@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ===== Theme chính: nền kem, status bar sáng chữ tối ===== -->
+    <style name="Theme.Lumina" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Màu chính -->
+        <item name="colorPrimary">@color/navy</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/navy_light</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+
+        <!-- Màu nhấn -->
+        <item name="colorSecondary">@color/gold</item>
+        <item name="colorOnSecondary">@color/navy</item>
+        <item name="colorSecondaryContainer">@color/gold_subtle</item>
+        <item name="colorOnSecondaryContainer">@color/gold_dark</item>
+
+        <!-- Nền & bề mặt -->
+        <item name="android:colorBackground">@color/cream</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/muted</item>
+        <item name="colorOutline">@color/line</item>
+        <item name="colorOutlineVariant">@color/line</item>
+
+        <!-- Lỗi -->
+        <item name="colorError">@color/status_red_text</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/status_red_bg</item>
+        <item name="colorOnErrorContainer">@color/status_red_text</item>
+
+        <!-- Thanh hệ thống -->
+        <item name="android:statusBarColor">@color/cream</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+
+        <!-- Nền cửa sổ mặc định -->
+        <item name="android:windowBackground">@color/cream</item>
+    </style>
+
+    <!-- ===== Biến thể nền tối: Splash, Chi tiết phòng, Đặt phòng thành công =====
+         Status bar tối, chữ trắng; nền cửa sổ vẫn để gradient/ảnh của từng màn tự đặt. -->
+    <style name="Theme.Lumina.Dark" parent="Theme.Lumina">
+        <item name="android:statusBarColor">@color/navy_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@color/navy_dark</item>
+    </style>
+
+    <!-- ===== Theme riêng cho Splash: status bar trong suốt, phủ gradient toàn màn ===== -->
+    <style name="Theme.Lumina.Splash" parent="Theme.Lumina.Dark">
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+</resources>
