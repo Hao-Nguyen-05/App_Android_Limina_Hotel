@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="20dp">
+
+    <!-- Tay cầm kéo -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_status_gray" />
+
+    <TextView
+        android:id="@+id/tvSheetTitle"
+        style="@style/TextAppearance.Lumina.H2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        tools:text="Đổi trạng thái phòng P.101"
+        xmlns:tools="http://schemas.android.com/tools" />
+
+    <RadioGroup
+        android:id="@+id/rgRoomStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/room_status_available"
+            android:textColor="@color/ink" />
+
+        <RadioButton
+            android:id="@+id/rbBooked"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/room_status_booked"
+            android:textColor="@color/ink" />
+
+        <RadioButton
+            android:id="@+id/rbOccupied"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/room_status_occupied"
+            android:textColor="@color/ink" />
+
+        <RadioButton
+            android:id="@+id/rbCleaning"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/room_status_cleaning"
+            android:textColor="@color/ink" />
+
+        <RadioButton
+            android:id="@+id/rbMaintenance"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/room_status_maintenance"
+            android:textColor="@color/ink" />
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUpdateStatus"
+        style="@style/Widget.Lumina.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/admin_room_status_update_btn" />
+
+</LinearLayout>

@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream">
+
+    <!-- TOOLBAR -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tbPayment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/surface"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/navy"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvPaymentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="52dp"
+            android:text="@string/payment_title"
+            android:textAppearance="@style/TextAppearance.Lumina.Title"
+            android:textColor="@color/navy" />
+
+        <TextView
+            android:id="@+id/tvStepIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_marginEnd="16dp"
+            android:text="@string/payment_step_indicator"
+            android:textAppearance="@style/TextAppearance.Lumina.Caption"
+            android:textColor="@color/muted" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- PROGRESS -->
+    <ProgressBar
+        android:id="@+id/pbStep"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:max="100"
+        android:progress="65"
+        android:progressTint="@color/gold"
+        android:progressBackgroundTint="@color/line"
+        app:layout_constraintTop_toBottomOf="@id/tbPayment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/svContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="88dp"
+        app:layout_constraintTop_toBottomOf="@id/pbStep"
+        app:layout_constraintBottom_toTopOf="@id/layoutBottomBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- COUNTDOWN -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cvCountdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_status_orange"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/ivClock"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_clock"
+                    android:importantForAccessibility="no"
+                    app:tint="@color/status_orange_text"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCountdown"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.Lumina.Body"
+                    android:textStyle="bold"
+                    android:textColor="@color/status_orange_text"
+                    tools:text="Giữ chỗ trong 14:32"
+                    app:layout_constraintTop_toTopOf="@id/ivClock"
+                    app:layout_constraintStart_toEndOf="@id/ivClock"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCountdownNote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/payment_countdown_note"
+                    android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                    android:textColor="@color/status_orange_text"
+                    app:layout_constraintTop_toBottomOf="@id/tvCountdown"
+                    app:layout_constraintStart_toStartOf="@id/tvCountdown"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- SUMMARY -->
+            <TextView
+                android:id="@+id/tvSummaryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/payment_section_summary"
+                android:textAppearance="@style/TextAppearance.Lumina.H2"
+                android:textColor="@color/navy" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cvSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card_stroke"
+                android:padding="16dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivRoomThumb"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Lumina.Corner8"
+                    android:scaleType="centerCrop"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:src="@drawable/ic_bed" />
+
+                <TextView
+                    android:id="@+id/tvRoomName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:textAppearance="@style/TextAppearance.Lumina.Title"
+                    android:textColor="@color/navy"
+                    tools:text="Suite Executive"
+                    app:layout_constraintTop_toTopOf="@id/ivRoomThumb"
+                    app:layout_constraintStart_toEndOf="@id/ivRoomThumb"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDateRange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                    android:textColor="@color/muted"
+                    tools:text="📅 20/09 → 23/09"
+                    app:layout_constraintTop_toBottomOf="@id/tvRoomName"
+                    app:layout_constraintStart_toStartOf="@id/tvRoomName"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvNightGuest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                    android:textColor="@color/faint"
+                    tools:text="3 đêm · 2 khách"
+                    app:layout_constraintTop_toBottomOf="@id/tvDateRange"
+                    app:layout_constraintStart_toStartOf="@id/tvRoomName"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/divider_line"
+                    app:layout_constraintTop_toBottomOf="@id/ivRoomThumb"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/layoutPriceLines"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/divider1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:id="@+id/tvPriceLineLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/muted"
+                            tools:text="4.200.000đ × 3 đêm" />
+                        <TextView
+                            android:id="@+id/tvPriceLineValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/ink"
+                            tools:text="12.600.000đ" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:id="@+id/tvServiceFeeLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/payment_label_service_fee"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/muted" />
+                        <TextView
+                            android:id="@+id/tvServiceFeeValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/ink"
+                            tools:text="200.000đ" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:id="@+id/tvVatLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/payment_label_vat"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/muted" />
+                        <TextView
+                            android:id="@+id/tvVatValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/ink"
+                            tools:text="1.024.000đ" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutDiscountLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+                        <TextView
+                            android:id="@+id/tvDiscountLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/payment_label_discount"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/muted" />
+                        <TextView
+                            android:id="@+id/tvDiscountValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Lumina.BodySm"
+                            android:textColor="@color/status_green_text"
+                            tools:text="-2.560.000đ" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="1.5dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/line"
+                    app:layout_constraintTop_toBottomOf="@id/layoutPriceLines"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTotalLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/payment_label_total"
+                    android:textAppearance="@style/TextAppearance.Lumina.Title"
+                    android:textColor="@color/navy"
+                    app:layout_constraintTop_toBottomOf="@id/divider2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvTotalValue" />
+
+                <TextView
+                    android:id="@+id/tvTotalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Lumina.H1"
+                    android:textSize="20sp"
+                    android:textColor="@color/gold"
+                    tools:text="13.824.000đ"
+                    app:layout_constraintTop_toTopOf="@id/tvTotalLabel"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- PAYMENT METHOD -->
+            <TextView
+                android:id="@+id/tvMethodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/payment_section_method"
+                android:textAppearance="@style/TextAppearance.Lumina.H2"
+                android:textColor="@color/navy" />
+
+            <RadioGroup
+                android:id="@+id/rgMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/cvVnpay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_payment_method_bg"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_circle_gold_soft"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_ticket"
+                        android:importantForAccessibility="no"
+                        app:tint="@color/gold_dark" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_vnpay"
+                            android:textAppearance="@style/TextAppearance.Lumina.Title"
+                            android:textColor="@color/ink" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_vnpay_desc"
+                            android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                            android:textColor="@color/muted" />
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rbVnpay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:clickable="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cvMomo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_payment_method_bg"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_circle_gold_soft"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_ticket"
+                        android:importantForAccessibility="no"
+                        app:tint="@color/gold_dark" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_momo"
+                            android:textAppearance="@style/TextAppearance.Lumina.Title"
+                            android:textColor="@color/ink" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_momo_desc"
+                            android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                            android:textColor="@color/muted" />
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rbMomo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cvCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_payment_method_bg"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_circle_gold_soft"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_ticket"
+                        android:importantForAccessibility="no"
+                        app:tint="@color/gold_dark" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_card"
+                            android:textAppearance="@style/TextAppearance.Lumina.Title"
+                            android:textColor="@color/ink" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_card_desc"
+                            android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                            android:textColor="@color/muted" />
+                    </LinearLayout>
+
+                    <RadioButton
+                    android:id="@+id/rbCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cvCash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_payment_method_bg"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_circle_gold_soft"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_ticket"
+                        android:importantForAccessibility="no"
+                        app:tint="@color/gold_dark" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_cash"
+                            android:textAppearance="@style/TextAppearance.Lumina.Title"
+                            android:textColor="@color/ink" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method_cash_desc"
+                            android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                            android:textColor="@color/muted" />
+                    </LinearLayout>
+
+                    <RadioButton
+                        android:id="@+id/rbCash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false" />
+                </LinearLayout>
+            </RadioGroup>
+
+            <!-- PROMO CODE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPromoCode"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:boxStrokeColor="@color/gold"
+                    app:hintTextColor="@color/muted"
+                    android:hint="@string/payment_label_promo_code">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPromoCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnApplyCode"
+                    style="@style/Widget.Lumina.Button.Outline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/payment_btn_apply_promo" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvPromoResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/TextAppearance.Lumina.Caption"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="Đã áp dụng mã LUMINA20 (-20%)" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- WEBVIEW VNPAY (ẩn mặc định, chỉ hiện khi chọn VNPay và bấm Thanh toán ngay) -->
+    <WebView
+        android:id="@+id/webViewVnpay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- BOTTOM BAR -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutBottomBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_bar"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPayNow"
+            style="@style/Widget.Lumina.Button.Gold"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            tools:text="Thanh toán ngay · 13.824.000đ"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="gone"
+            android:indeterminateTint="@color/navy"
+            app:layout_constraintTop_toTopOf="@id/btnPayNow"
+            app:layout_constraintBottom_toBottomOf="@id/btnPayNow"
+            app:layout_constraintStart_toStartOf="@id/btnPayNow"
+            app:layout_constraintEnd_toEndOf="@id/btnPayNow" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

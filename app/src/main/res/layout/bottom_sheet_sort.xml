@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/space_20">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_20"
+        style="@style/TextAppearance.Lumina.Title"
+        android:text="@string/sort_bottom_sheet_title" />
+
+    <TextView
+        android:id="@+id/rowPriceAsc"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/space_20"
+        android:textColor="@color/ink"
+        android:textSize="14sp"
+        android:text="@string/sort_price_asc" />
+
+    <TextView
+        android:id="@+id/rowPriceDesc"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/space_20"
+        android:textColor="@color/ink"
+        android:textSize="14sp"
+        android:text="@string/sort_price_desc" />
+
+    <TextView
+        android:id="@+id/rowRating"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/space_20"
+        android:textColor="@color/ink"
+        android:textSize="14sp"
+        android:text="@string/sort_rating" />
+
+    <TextView
+        android:id="@+id/rowPopular"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/space_20"
+        android:textColor="@color/ink"
+        android:textSize="14sp"
+        android:text="@string/sort_popular" />
+
+</LinearLayout>

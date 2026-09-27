@@ -86,7 +86,17 @@ public class BookingDao {
      *
      * @return id đơn vừa tạo, hoặc -1 nếu thất bại.
      */
+    /** Giữ nguyên cho MoMo/Thẻ/Tiền mặt — txn_ref tự sinh như cũ. */
     public long createBooking(Booking b, String paymentMethod) {
+        return createBooking(b, paymentMethod, null);
+    }
+
+    /**
+     * PROMPT #8 — overload mới cho VNPay thật: cho phép truyền đúng
+     * vnp_TransactionNo làm txn_ref thay vì tự sinh "TXN"+now.
+     * txnRef = null thì hành vi y hệt hàm cũ.
+     */
+    public long createBooking(Booking b, String paymentMethod, String txnRef) {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -117,13 +127,18 @@ public class BookingDao {
             if (bookingId == -1) return -1;   // finally vẫn chạy, giao dịch bị huỷ
 
             if (paymentMethod != null) {
+                boolean isCash = "cash".equals(paymentMethod);
                 ContentValues p = new ContentValues();
                 p.put("booking_id", bookingId);
                 p.put("method", paymentMethod);
                 p.put("amount", b.getTotalAmount());
-                p.put("payment_status", "paid");
-                p.put("paid_at", now);
-                p.put("txn_ref", "TXN" + now);
+                p.put("payment_status", isCash ? "unpaid" : "paid");
+                if (isCash) {
+                    p.putNull("paid_at");
+                } else {
+                    p.put("paid_at", now);
+                }
+                p.put("txn_ref", txnRef != null ? txnRef : ("TXN" + now));
                 if (db.insert("payments", null, p) == -1) return -1;
             }
 
@@ -272,7 +287,8 @@ public class BookingDao {
         }
     }
 
-    /** Check-out: đơn chuyển sang hoàn tất, phòng chuyển sang "cần dọn". */
+    /** Check-out: đơn chuyển sang hoàn tất, phòng chuyển sang "cần dọn".
+     *  Nếu đơn trả bằng tiền mặt và chưa thanh toán, đánh dấu đã thu tiền lúc này. */
     public boolean checkOut(int bookingId, int roomId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.beginTransaction();
@@ -287,6 +303,13 @@ public class BookingDao {
                 rm.put("room_status", RoomStatus.CLEANING);
                 db.update("rooms", rm, "id = ?", new String[]{ String.valueOf(roomId) });
             }
+
+            ContentValues pay = new ContentValues();
+            pay.put("payment_status", "paid");
+            pay.put("paid_at", System.currentTimeMillis());
+            db.update("payments", pay,
+                    "booking_id = ? AND method = 'cash' AND payment_status = 'unpaid'",
+                    new String[]{ String.valueOf(bookingId) });
 
             if (r1 > 0) {
                 db.setTransactionSuccessful();

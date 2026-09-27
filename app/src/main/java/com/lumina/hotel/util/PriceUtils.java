@@ -88,7 +88,7 @@ public final class PriceUtils {
      */
     public static String formatShort(long amount) {
         if (amount >= 1_000_000_000L) {
-            return trimZero(String.format(Locale.US, "%.2f", amount / 1_000_000_000d)) + "B";
+            return trimZero(String.format(Locale.US, "%.1f", amount / 1_000_000_000d)) + "B";
         }
         if (amount >= 1_000_000L) {
             return trimZero(String.format(Locale.US, "%.1f", amount / 1_000_000d)) + "M";

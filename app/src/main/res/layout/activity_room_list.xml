@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream"
+    tools:theme="@style/Theme.Lumina.Dark">
+
+    <!-- 1. HEADER NAVY (phủ cả dải status bar) -->
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/navy"
+        android:elevation="@dimen/elevation_card_1"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tbRoomList"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:contentDescription="@string/cd_toolbar_room_list">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_back"
+                android:padding="12dp"
+                android:src="@drawable/ic_back"
+                app:tint="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDateSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/inter_bold"
+                    tools:text="20/09 - 23/09 · 2 khách" />
+
+                <TextView
+                    android:id="@+id/tvResultSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.6"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    app:fontFamily="@font/inter_regular"
+                    tools:text="3 đêm · 8 phòng phù hợp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnEditSearch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_edit_search"
+                android:padding="12dp"
+                android:src="@drawable/ic_filter"
+                app:tint="@android:color/white" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </LinearLayout>
+
+    <!-- 2. THANH CÔNG CỤ (cream) -->
+    <LinearLayout
+        android:id="@+id/layoutToolbarArea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/cream"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/space_20"
+        android:paddingTop="@dimen/space_12"
+        android:paddingEnd="@dimen/space_20"
+        android:paddingBottom="@dimen/space_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvResultCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/muted"
+                android:textSize="13sp"
+                tools:text="Hiển thị 8 kết quả" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSort"
+                style="@style/Widget.Lumina.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:checkable="false"
+                android:text="@string/sort_price_asc"
+                app:closeIcon="@drawable/ic_chevron_down"
+                app:closeIconEnabled="true"
+                app:closeIconTint="@color/muted" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgQuickFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="@dimen/space_8"
+                app:singleLine="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipBreakfast"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/filter_breakfast" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAvailable"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/filter_available" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- 3. DANH SÁCH -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRoomList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/space_20"
+        android:paddingEnd="@dimen/space_20"
+        android:paddingBottom="@dimen/space_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbarArea"
+        tools:listitem="@layout/item_room_type_card" />
+
+    <!-- 4. EMPTY STATE -->
+    <include
+        android:id="@+id/layoutEmpty"
+        layout="@layout/layout_empty_state"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/rvRoomList"
+        app:layout_constraintEnd_toEndOf="@id/rvRoomList"
+        app:layout_constraintStart_toStartOf="@id/rvRoomList"
+        app:layout_constraintTop_toTopOf="@id/rvRoomList" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/rvRoomList"
+        app:layout_constraintEnd_toEndOf="@id/rvRoomList"
+        app:layout_constraintStart_toStartOf="@id/rvRoomList"
+        app:layout_constraintTop_toTopOf="@id/rvRoomList" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

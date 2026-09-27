@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Lumina.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- Hàng trên: icon tròn vàng nhạt + badge % (mặc định ẩn) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivStatIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle_gold_soft"
+                android:padding="7dp"
+                android:contentDescription="@null"
+                app:tint="@color/gold_dark" />
+
+            <TextView
+                android:id="@+id/tvStatBadge"
+                style="@style/Widget.Lumina.StatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_status_green"
+                android:textColor="@color/status_green_text"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- Giá trị chính -->
+        <TextView
+            android:id="@+id/tvStatValue"
+            style="@style/TextAppearance.Lumina.Price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/placeholder_dash" />
+
+        <!-- Nhãn -->
+        <TextView
+            android:id="@+id/tvStatLabel"
+            style="@style/TextAppearance.Lumina.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

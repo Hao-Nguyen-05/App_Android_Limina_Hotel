@@ -195,11 +195,82 @@ public class UserDao {
                 new String[]{ String.valueOf(userId) });
     }
 
+    /** Tìm user đã từng đăng nhập Google trước đó (theo google_id). */
+    public User findByGoogleId(String googleId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = null;
+        try {
+            c = db.rawQuery("SELECT * FROM users WHERE google_id = ? LIMIT 1",
+                    new String[]{ googleId });
+            return c.moveToFirst() ? cursorToUser(c) : null;
+        } finally {
+            if (c != null) c.close();
+        }
+    }
+
+    /**
+     * Đăng nhập/Đăng ký bằng Google: tìm theo google_id trước, không có thì nối
+     * vào tài khoản local cùng email, không có cả hai thì tạo user mới.
+     * Toàn bộ trong 1 transaction để tránh race condition khi đăng nhập nhanh liên tiếp.
+     */
+    public User loginOrRegisterWithGoogle(String googleId, String email,
+                                          String fullName, String avatarUrl) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            User existing = findByGoogleId(googleId);
+            if (existing != null) {
+                db.setTransactionSuccessful();
+                return existing;
+            }
+
+            Cursor c = null;
+            User byEmail = null;
+            try {
+                c = db.rawQuery("SELECT * FROM users WHERE email = ? LIMIT 1",
+                        new String[]{ email });
+                if (c.moveToFirst()) byEmail = cursorToUser(c);
+            } finally {
+                if (c != null) c.close();
+            }
+
+            if (byEmail != null) {
+                ContentValues v = new ContentValues();
+                v.put(UserTable.AUTH_PROVIDER, DbContract.AuthProvider.GOOGLE);
+                v.put(UserTable.GOOGLE_ID, googleId);
+                db.update(UserTable.TABLE_NAME, v, "id = ?",
+                        new String[]{ String.valueOf(byEmail.getId()) });
+                db.setTransactionSuccessful();
+                return getById(byEmail.getId());
+            }
+
+            User newUser = new User();
+            newUser.setFullName(fullName);
+            newUser.setEmail(email);
+            newUser.setAvatarUrl(avatarUrl);
+            newUser.setPassword(null);
+            newUser.setRole(DbContract.Role.CUSTOMER);
+            newUser.setVip(false);
+            newUser.setCreatedAt(System.currentTimeMillis());
+            newUser.setAuthProvider(DbContract.AuthProvider.GOOGLE);
+            newUser.setGoogleId(googleId);
+
+            long newId = insert(newUser);
+            db.setTransactionSuccessful();
+            return getById((int) newId);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+
     public int delete(int userId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         return db.delete(UserTable.TABLE_NAME, "id = ?",
                 new String[]{ String.valueOf(userId) });
     }
+
+
 
     // ---------------- CHUYỂN CURSOR → POJO ----------------
 

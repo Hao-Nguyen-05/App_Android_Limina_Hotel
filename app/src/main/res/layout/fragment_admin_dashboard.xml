@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srlDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingBottom="80dp">
+
+                <!-- 1. HEADER NAVY GRADIENT -->
+                <LinearLayout
+                    android:id="@+id/llAdminHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_navy_gradient"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="32dp">
+
+                    <TextView
+                        android:id="@+id/tvAdminLabel"
+                        style="@style/TextAppearance.Lumina.Overline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/admin_dashboard_overline" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/tvGreetingAdmin"
+                            style="@style/TextAppearance.Lumina.H1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/ivAdminAvatar"
+                            android:layout_marginEnd="12dp"
+                            android:textColor="@color/surface"
+                            android:text="@string/admin_dashboard_greeting" />
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/ivAdminAvatar"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_circle_white_20"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="9dp"
+                            android:scaleType="centerInside"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Lumina.Circle"
+                            app:tint="@color/surface"
+                            android:src="@drawable/ic_user"
+                            android:contentDescription="@string/cd_admin_avatar_profile" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvOverviewLabel"
+                        style="@style/TextAppearance.Lumina.BodySm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:alpha="0.7"
+                        android:textColor="@color/surface"
+                        android:text="@string/admin_dashboard_overview" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cgTimeRange"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:singleSelection="true"
+                        app:chipSpacingHorizontal="8dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipMonth"
+                            tools:ignore="TouchTargetSizeCheck"
+                            style="@style/Widget.Lumina.Chip.Filter.OnDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:checked="true"
+                            android:text="@string/chip_time_month" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipToday"
+                            tools:ignore="TouchTargetSizeCheck"
+                            style="@style/Widget.Lumina.Chip.Filter.OnDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="@string/chip_time_today" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipWeek"
+                            tools:ignore="TouchTargetSizeCheck"
+                            style="@style/Widget.Lumina.Chip.Filter.OnDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="@string/chip_time_week" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipCustom"
+                            tools:ignore="TouchTargetSizeCheck"
+                            style="@style/Widget.Lumina.Chip.Filter.OnDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="@string/chip_time_custom" />
+                    </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+
+                <!-- 2. DẢI THÔNG BÁO NỔI BẬT (đè mép header -20dp) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvHighlight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/gold"
+                    app:cardBackgroundColor="@color/gold_subtle">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/ivTrendIcon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:tint="@color/status_green_text"
+                            android:src="@drawable/ic_trending_up"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:id="@+id/tvHighlightText"
+                            style="@style/TextAppearance.Lumina.Caption"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/ink"
+                            android:text="@string/placeholder_dash" />
+
+                        <TextView
+                            android:id="@+id/tvHighlightBadge"
+                            tools:ignore="TextContrastCheck"
+                            style="@style/Widget.Lumina.StatusBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_status_green"
+                            android:textColor="@color/status_green_text"
+                            android:text="@string/placeholder_dash" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 3. LƯỚI 4 THẺ CHỈ SỐ (2x2) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                        <include
+                            android:id="@+id/cvStatRevenue"
+                            layout="@layout/layout_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp" />
+
+                        <include
+                            android:id="@+id/cvStatBookings"
+                            layout="@layout/layout_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp"
+                        android:baselineAligned="false">
+
+                        <include
+                            android:id="@+id/cvStatOccupancy"
+                            layout="@layout/layout_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp" />
+
+                        <include
+                            android:id="@+id/cvStatVacant"
+                            layout="@layout/layout_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 4. BIỂU ĐỒ DOANH THU (LineChart) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvChartTitle"
+                            style="@style/TextAppearance.Lumina.H2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/tvChartTrend"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/title_revenue_chart" />
+
+                        <TextView
+                            android:id="@+id/tvChartSubtitle"
+                            style="@style/TextAppearance.Lumina.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvChartTitle"
+                            android:layout_toStartOf="@+id/tvChartTrend"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/placeholder_dash" />
+
+                        <TextView
+                            android:id="@+id/tvChartTrend"
+                            tools:ignore="TextContrastCheck"
+                            style="@style/TextAppearance.Lumina.BodySm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/status_green_text"
+                            android:text="@string/placeholder_dash" />
+                    </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chartRevenue"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+
+                <!-- 5. TỶ TRỌNG LOẠI PHÒNG ĐẶT -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:id="@+id/tvShareTitle"
+                        style="@style/TextAppearance.Lumina.H2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_type_share" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTypeShare"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_type_share"
+                        tools:itemCount="5" />
+                </LinearLayout>
+
+                <!-- 6. ĐƠN MỚI NHẤT -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvLatestTitle"
+                            style="@style/TextAppearance.Lumina.H2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/btnSeeAllBookings"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/title_latest_bookings" />
+
+                        <TextView
+                            android:id="@+id/btnSeeAllBookings"
+                            style="@style/TextAppearance.Lumina.BodySm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/gold_dark"
+                            android:padding="4dp"
+                            android:text="@string/action_see_all" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLatestBookings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_latest_booking"
+                        tools:itemCount="4" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -75,8 +75,9 @@
 
                 <TextView
                     android:id="@+id/tvCustomerName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/navy"
@@ -98,6 +99,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/gold_dark"
                     android:textSize="10sp"
+                    android:maxLines="1"
                     android:visibility="gone"
                     app:fontFamily="@font/inter_bold"
                     tools:visibility="visible" />

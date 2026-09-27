@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="2"
                 tools:text="Deluxe Ocean View" />
 
             <TextView
@@ -85,7 +85,7 @@
                 <ImageView
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:src="@drawable/ic_star"
+                    android:src="@drawable/ic_star_filled"
                     app:tint="@color/gold" />
 
                 <TextView

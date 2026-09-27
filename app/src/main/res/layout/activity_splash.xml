@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_navy_gradient">
+
+    <!-- Khối giữa màn: logo + tên + phụ đề + slogan (animation chạy trên khối này) -->
+    <LinearLayout
+        android:id="@+id/llBrand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@drawable/bg_splash_logo"
+            android:importantForAccessibility="no"
+            android:padding="24dp"
+            android:src="@drawable/ic_logo"
+            app:tint="@color/gold" />
+
+        <TextView
+            android:id="@+id/tvBrandName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:letterSpacing="0.10"
+            android:text="@string/splash_app_name"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:fontFamily="@font/playfair_display_bold" />
+
+        <TextView
+            android:id="@+id/tvBrandSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:letterSpacing="0.40"
+            android:text="@string/splash_tagline"
+            android:textColor="@color/gold"
+            android:textSize="11sp"
+            app:fontFamily="@font/inter_medium" />
+
+        <TextView
+            android:id="@+id/tvSlogan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:alpha="0.6"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.4"
+            android:maxWidth="240dp"
+            android:text="@string/splash_slogan"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:fontFamily="@font/inter_regular" />
+    </LinearLayout>
+
+    <!-- Khối đáy: vòng tải + chữ "Đang tải..." (cách đáy 48dp) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/gold" />
+
+        <TextView
+            android:id="@+id/tvLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:alpha="0.4"
+            android:text="@string/splash_loading"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:fontFamily="@font/inter_regular" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

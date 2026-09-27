@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="24dp">
+
+        <!-- Tay cầm kéo -->
+        <View
+            android:layout_width="36dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_status_gray" />
+
+        <!-- Hàng tiêu đề + nút đóng -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.Lumina.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/customer_detail_title" />
+
+            <ImageButton
+                android:id="@+id/btnCloseSheet"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/customer_detail_cd_close"
+                android:src="@drawable/ic_close"
+                app:tint="@color/muted" />
+        </LinearLayout>
+
+        <!-- Avatar + tên + liên hệ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="56dp"
+                android:layout_height="56dp">
+
+                <TextView
+                    android:id="@+id/tvDetailAvatar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_circle_gold_soft"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:textColor="@color/gold_dark"
+                    android:textSize="20sp"
+                    tools:text="A" />
+
+                <ImageView
+                    android:id="@+id/ivDetailVipStar"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="top|end"
+                    android:src="@drawable/ic_star_filled"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDetailName"
+                    style="@style/TextAppearance.Lumina.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="Nguyễn Văn An" />
+
+                <TextView
+                    android:id="@+id/tvDetailContact"
+                    style="@style/TextAppearance.Lumina.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="0901 234 567 · an.nguyen@email.com" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Hàng bật/tắt VIP -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/cream"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                style="@style/TextAppearance.Lumina.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/customer_detail_switch_vip" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchVip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Thống kê: tổng đơn · tổng chi tiêu -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Lumina.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_detail_label_total_bookings" />
+
+                <TextView
+                    android:id="@+id/tvDetailTotalBookings"
+                    style="@style/TextAppearance.Lumina.H2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    tools:text="12 đơn" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Lumina.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_detail_label_total_spent" />
+
+                <TextView
+                    android:id="@+id/tvDetailTotalSpent"
+                    style="@style/TextAppearance.Lumina.H2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    tools:text="45.600.000đ" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Đường kẻ -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/line" />
+
+        <!-- Danh sách đơn gần nhất -->
+        <TextView
+            style="@style/TextAppearance.Lumina.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/customer_detail_recent_bookings_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecentBookings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_latest_booking" />
+
+        <TextView
+            android:id="@+id/tvEmptyBookings"
+            style="@style/TextAppearance.Lumina.BodySm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/customer_detail_empty_bookings"
+            android:visibility="gone" />
+
+        <!-- Nút gọi điện -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCallCustomer"
+            style="@style/Widget.Lumina.Button.Outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/customer_detail_btn_call"
+            app:icon="@drawable/ic_phone"
+            app:iconGravity="textStart"
+            app:iconTint="@color/navy" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

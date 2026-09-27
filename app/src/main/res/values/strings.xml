@@ -24,6 +24,8 @@
     <!-- ===================== SPLASH ===================== -->
     <string name="splash_app_name">LUMINA</string>
     <string name="splash_tagline">HOTEL &amp; RESORT</string>
+    <string name="splash_slogan">Trải nghiệm nghỉ dưỡng đẳng cấp — nơi mỗi khoảnh khắc đều trở nên đáng nhớ</string>
+    <string name="splash_loading">Đang tải...</string>
 
     <!-- ===================== ĐĂNG NHẬP / ĐĂNG KÝ ===================== -->
     <string name="login_title">Đăng nhập</string>
@@ -38,6 +40,14 @@
     <string name="login_btn_google">Đăng nhập với Google</string>
     <string name="login_no_account">Chưa có tài khoản?</string>
     <string name="login_go_register">Đăng ký ngay</string>
+    <string name="login_welcome_title">Chào mừng trở lại</string>
+    <string name="login_welcome_subtitle">Đăng nhập để tiếp tục hành trình của bạn</string>
+    <string name="login_error_account_required">Vui lòng nhập email hoặc số điện thoại</string>
+    <string name="login_error_password_required">Vui lòng nhập mật khẩu</string>
+    <string name="login_error_invalid">Email hoặc mật khẩu không đúng</string>
+    <string name="feature_coming_soon">Tính năng đang phát triển</string>
+    <string name="login_demo_hint">Tài khoản demo: admin@lumina.vn / admin123 · an.nguyen@email.com / 123456</string>
+
 
     <string name="register_title">Đăng ký</string>
     <string name="register_subtitle">Tạo tài khoản mới</string>
@@ -50,6 +60,15 @@
     <string name="register_btn_google">Đăng ký với Google</string>
     <string name="register_has_account">Đã có tài khoản?</string>
     <string name="register_go_login">Đăng nhập</string>
+    <string name="register_hint_fullname">Nhập họ và tên</string>
+    <string name="register_hint_email">Nhập địa chỉ email</string>
+    <string name="register_hint_phone">Nhập số điện thoại</string>
+    <string name="register_hint_password">Tạo mật khẩu</string>
+    <string name="register_hint_confirm_password">Nhập lại mật khẩu</string>
+    <string name="register_terms_agree">Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật</string>
+    <string name="register_error_fullname_short">Họ và tên phải có ít nhất 2 ký tự</string>
+    <string name="register_error_terms_required">Bạn cần đồng ý với điều khoản sử dụng</string>
+    <string name="register_success">Đăng ký thành công</string>
 
     <!-- Lỗi validate dùng chung Login/Register -->
     <string name="error_field_required">Trường này không được để trống</string>
@@ -100,6 +119,30 @@
     <string name="room_detail_label_checkin">Nhận phòng</string>
     <string name="room_detail_label_checkout">Trả phòng</string>
     <string name="room_detail_label_guests">Số khách</string>
+    <string name="room_detail_cd_back">Quay lại danh sách phòng</string>
+    <string name="room_detail_cd_favorite">Thêm vào yêu thích</string>
+    <string name="room_detail_separator">·</string>
+    <string name="room_detail_price_label">Giá / đêm</string>
+    <string name="room_detail_weekend_note">⚡ Giá cuối tuần +20%</string>
+    <string name="room_detail_desc_title">Mô tả phòng</string>
+    <string name="room_detail_expand">Xem thêm</string>
+    <string name="room_detail_info_title">Thông tin quan trọng</string>
+    <string name="room_detail_check_in_out">Check-in: 14:00 · Check-out: 12:00</string>
+    <string name="room_detail_max_guest_format">Sức chứa tối đa: %1$d người lớn</string>
+    <string name="room_detail_cancel_policy">Hủy miễn phí trước 48h</string>
+    <string name="room_detail_review_title">Đánh giá</string>
+    <string name="room_detail_see_all">Xem tất cả</string>
+    <string name="room_detail_star_label_5">5</string>
+    <string name="room_detail_star_label_4">4</string>
+    <string name="room_detail_star_label_3">3</string>
+    <string name="room_detail_star_label_2">2</string>
+    <string name="room_detail_star_label_1">1</string>
+    <string name="room_detail_bottom_price_label">từ / đêm</string>
+    <string name="room_detail_inactive_note">Phòng hiện không nhận đặt</string>
+    <string name="room_detail_collapse">Thu gọn</string>
+    <string name="room_detail_sold_out_note">Hết phòng trong khoảng ngày này</string>
+    <string name="room_detail_review_count_format">(%1$d đánh giá)</string>
+
 
     <!-- ===================== THANH TOÁN ===================== -->
     <string name="payment_title">Thanh toán</string>
@@ -119,6 +162,14 @@
     <string name="payment_btn_submit">Thanh toán ngay</string>
     <string name="payment_error_promo_invalid">Mã giảm giá không hợp lệ hoặc đã hết hạn</string>
     <string name="payment_error_expired">Đã hết thời gian giữ chỗ, vui lòng đặt lại</string>
+    <string name="payment_step_indicator">Bước 2/2</string>
+    <string name="payment_countdown_note">Vui lòng hoàn tất trước khi hết hạn</string>
+    <string name="payment_method_vnpay_desc">Thanh toán qua app ngân hàng</string>
+    <string name="payment_method_momo_desc">Số dư: 25.000.000đ</string>
+    <string name="payment_method_card_desc">Visa / Mastercard / JCB</string>
+    <string name="payment_expired_title">Hết thời gian giữ chỗ</string>
+    <string name="payment_method_cash">Tiền mặt</string>
+    <string name="payment_method_cash_desc">Thanh toán trực tiếp khi nhận phòng</string>
 
     <!-- ===================== ĐẶT PHÒNG THÀNH CÔNG ===================== -->
     <string name="success_title">Đặt phòng thành công!</string>
@@ -148,6 +199,35 @@
     <string name="profile_menu_about">Giới thiệu</string>
     <string name="profile_menu_logout">Đăng xuất</string>
     <string name="profile_confirm_logout">Bạn có chắc muốn đăng xuất?</string>
+    <string name="profile_screen_title">Thông tin cá nhân</string>
+    <string name="profile_member_since">Thành viên từ %1$s</string>
+    <string name="profile_label_fullname">HỌ VÀ TÊN</string>
+    <string name="profile_hint_fullname">Nhập họ và tên đầy đủ</string>
+    <string name="profile_label_email">EMAIL (không thể thay đổi)</string>
+    <string name="profile_label_phone">SỐ ĐIỆN THOẠI</string>
+    <string name="profile_hint_phone">Nhập số điện thoại</string>
+    <string name="profile_label_dob">NGÀY SINH</string>
+    <string name="profile_hint_dob">Chọn ngày sinh</string>
+    <string name="profile_btn_save">Lưu thay đổi</string>
+    <string name="profile_error_fullname_empty">Vui lòng nhập họ và tên</string>
+    <string name="profile_error_phone_invalid">Số điện thoại phải gồm 10 chữ số</string>
+    <string name="profile_error_dob_future">Ngày sinh phải ở quá khứ</string>
+    <string name="profile_snackbar_update_success">Đã cập nhật thông tin</string>
+    <string name="cd_avatar">Ảnh đại diện</string>
+    <string name="cd_change_avatar">Đổi ảnh đại diện</string>
+
+    <!-- Dialog đổi mật khẩu -->
+    <string name="dialog_change_password_title">Đổi mật khẩu</string>
+    <string name="dialog_change_password_hint_current">Mật khẩu hiện tại</string>
+    <string name="dialog_change_password_hint_new">Mật khẩu mới</string>
+    <string name="dialog_change_password_hint_confirm">Xác nhận mật khẩu mới</string>
+    <string name="dialog_change_password_error_current_wrong">Mật khẩu hiện tại không đúng</string>
+    <string name="dialog_change_password_error_new_short">Mật khẩu mới tối thiểu 6 ký tự</string>
+    <string name="dialog_change_password_error_confirm_mismatch">Mật khẩu xác nhận không khớp</string>
+    <string name="dialog_change_password_submit">Đổi mật khẩu</string>
+    <string name="snackbar_change_password_success">Đã đổi mật khẩu thành công</string>
+
+    <!-- Dialog đăng xuất (dùng chung profile_menu_logout / profile_confirm_logout / action_cancel làm title/message/nút Hủy) -->
 
     <!-- ===================== TRẠNG THÁI ĐẶT PHÒNG (booking_status) ===================== -->
     <string name="booking_status_pending">Chờ xác nhận</string>
@@ -183,14 +263,97 @@
     <string name="admin_room_type_label_description">MÔ TẢ</string>
     <string name="admin_room_type_label_active">Đang hoạt động</string>
 
+
+    <!-- Màn danh sách loại phòng (admin) -->
+    <string name="admin_room_type_btn_add_short">Thêm mới</string>
+    <string name="admin_room_type_stat_types">Tổng loại phòng</string>
+    <string name="admin_room_type_stat_rooms">Tổng phòng</string>
+    <string name="admin_room_type_meta">%1$dm² · Tối đa %2$d khách · %3$d phòng</string>
+    <string name="admin_room_type_price_per_night">%1$s / đêm</string>
+    <string name="admin_room_type_badge_inactive">Ngừng</string>
+    <string name="admin_room_type_cd_image">Ảnh loại phòng %1$s</string>
+    <string name="admin_room_type_cd_edit">Sửa loại phòng %1$s</string>
+    <string name="admin_room_type_cd_delete">Xóa loại phòng %1$s</string>
+    <string name="admin_room_type_empty_title">Chưa có loại phòng nào</string>
+    <string name="admin_room_type_empty_desc">Nhấn Thêm mới để tạo loại phòng đầu tiên</string>
+    <string name="admin_room_type_load_error">Không tải được danh sách, vui lòng thử lại</string>
+
+    <!-- Dialog & thông báo khi xóa -->
+    <string name="admin_room_type_delete_title">Xóa loại phòng?</string>
+    <string name="admin_room_type_delete_message">Mọi phòng thuộc loại này cũng sẽ bị xóa. Không thể hoàn tác.</string>
+    <string name="admin_room_type_delete_blocked">Không thể xóa: loại phòng đang có đơn đặt</string>
+    <string name="admin_room_type_delete_blocked_history">Không thể xóa: loại phòng đã có lịch sử đơn đặt. Hãy tắt \"Đang hoạt động\" thay vì xóa.</string>
+    <string name="admin_room_type_delete_success">Đã xóa loại phòng</string>
+    <string name="admin_room_type_delete_error">Không xóa được, vui lòng thử lại</string>
+
+    <!-- Form thêm / sửa loại phòng -->
+    <string name="admin_room_type_form_title_add">Thêm loại phòng</string>
+    <string name="admin_room_type_form_title_edit">Chỉnh sửa loại phòng</string>
+    <string name="admin_room_type_label_total_rooms">SỐ LƯỢNG PHÒNG</string>
+    <string name="admin_room_type_label_image_url">URL ẢNH</string>
+    <string name="admin_room_type_label_amenities">TIỆN NGHI</string>
+    <string name="admin_room_type_hint_name">VD: Deluxe Ocean View</string>
+    <string name="admin_room_type_hint_description">Mô tả ngắn về loại phòng</string>
+    <string name="admin_room_type_hint_image_url">https://...</string>
+    <string name="admin_room_type_cd_preview">Xem trước ảnh loại phòng</string>
+    <string name="admin_room_type_error_positive_int">Vui lòng nhập số nguyên dương</string>
+    <string name="admin_room_type_error_image_url">URL ảnh phải bắt đầu bằng http</string>
+    <string name="admin_room_type_save_added">Đã thêm loại phòng</string>
+    <string name="admin_room_type_save_updated">Đã cập nhật loại phòng</string>
+    <string name="admin_room_type_save_error">Không lưu được, vui lòng thử lại</string>
+    <string name="admin_room_type_not_found">Không tìm thấy loại phòng này</string>
+
     <!-- ===================== ADMIN — PHÒNG ===================== -->
     <string name="admin_room_title">Quản lý phòng</string>
     <string name="admin_room_btn_add">Thêm phòng</string>
+
+    <!-- Chip lọc trạng thái (nhãn gốc; số đếm ghép thêm ở code qua admin_room_filter_format) -->
+    <string name="admin_room_filter_format">%1$s · %2$d</string>
+    <string name="admin_room_filter_all">Tất cả</string>
+    <string name="admin_room_filter_available">Trống</string>
+    <string name="admin_room_filter_booked">Đã đặt</string>
+    <string name="admin_room_filter_occupied">Đang ở</string>
+    <string name="admin_room_filter_cleaning">Cần dọn</string>
+    <string name="admin_room_filter_maintenance">Bảo trì</string>
+
+    <!-- item_admin_room -->
+    <string name="admin_room_meta">%1$s · Tầng %2$d</string>
+
+    <!-- Trạng thái rỗng / lỗi tải -->
+    <string name="admin_room_empty_title">Chưa có phòng nào</string>
+    <string name="admin_room_empty_desc">Nhấn Thêm phòng để tạo phòng đầu tiên</string>
+    <string name="admin_room_load_error">Không tải được danh sách, vui lòng thử lại</string>
+
+    <!-- Xóa phòng -->
+    <string name="admin_room_delete_title">Xóa phòng?</string>
+    <string name="admin_room_delete_message">Phòng này sẽ bị xóa khỏi hệ thống. Không thể hoàn tác.</string>
+    <string name="admin_room_delete_blocked">Không thể xóa: phòng đang có khách hoặc đã được đặt</string>
+    <string name="admin_room_delete_success">Đã xóa phòng</string>
+    <string name="admin_room_delete_error">Không xóa được, vui lòng thử lại</string>
+
+    <!-- BottomSheet đổi trạng thái -->
+    <string name="admin_room_status_sheet_title">Đổi trạng thái phòng %1$s</string>
+    <string name="admin_room_status_update_btn">Cập nhật</string>
+    <string name="admin_room_status_update_success">Đã cập nhật trạng thái phòng</string>
+    <string name="admin_room_status_update_error">Không cập nhật được, vui lòng thử lại</string>
+
+    <!-- Form thêm/sửa phòng -->
+    <string name="admin_room_form_title_add">Thêm phòng</string>
+    <string name="admin_room_form_title_edit">Chỉnh sửa phòng</string>
     <string name="admin_room_label_number">SỐ PHÒNG</string>
     <string name="admin_room_label_floor">TẦNG</string>
     <string name="admin_room_label_type">LOẠI PHÒNG</string>
     <string name="admin_room_label_status">TRẠNG THÁI</string>
+    <string name="admin_room_label_note">GHI CHÚ</string>
+    <string name="admin_room_hint_number">VD: P.101</string>
+    <string name="admin_room_hint_floor">VD: 1</string>
+    <string name="admin_room_hint_note">Ghi chú thêm (không bắt buộc)</string>
     <string name="admin_room_error_number_exists">Số phòng này đã tồn tại</string>
+    <string name="admin_room_error_floor_range">Tầng phải là số nguyên từ 1 đến 20</string>
+    <string name="admin_room_save_added">Đã thêm phòng</string>
+    <string name="admin_room_save_updated">Đã cập nhật phòng</string>
+    <string name="admin_room_save_error">Không lưu được, vui lòng thử lại</string>
+    <string name="admin_room_not_found">Không tìm thấy phòng này</string>
 
     <!-- ===================== ADMIN — ĐẶT PHÒNG ===================== -->
     <string name="admin_booking_title">Quản lý đặt phòng</string>
@@ -208,7 +371,45 @@
     <string name="admin_booking_action_reject">Từ chối</string>
     <string name="admin_booking_action_checkin">Check-in</string>
     <string name="admin_booking_action_checkout">Check-out</string>
+    <!-- fragment_admin_booking: chip lọc -->
+    <string name="admin_booking_filter_all">Tất cả</string>
+    <string name="admin_booking_filter_pending">Chờ xác nhận</string>
+    <string name="admin_booking_filter_confirmed">Đã xác nhận</string>
+    <string name="admin_booking_filter_checked_in">Đang ở</string>
+    <string name="admin_booking_filter_completed">Hoàn tất</string>
+    <string name="admin_booking_filter_cancelled">Đã hủy</string>
+    <string name="admin_booking_empty_title">Chưa có đơn đặt phòng nào</string>
+    <string name="admin_booking_empty_desc">Đơn mới của khách sẽ xuất hiện tại đây</string>
+    <string name="admin_booking_load_error">Không tải được danh sách, vui lòng thử lại</string>
+    <string name="admin_booking_no_room">Chưa gán phòng</string>
+    <!-- Xác nhận đơn -->
+    <string name="admin_booking_confirm_title">Xác nhận đơn?</string>
+    <string name="admin_booking_confirm_message">Xác nhận đơn #%1$s cho khách hàng?</string>
+    <string name="admin_booking_confirm_success">Đã xác nhận đơn</string>
+    <string name="admin_booking_confirm_error">Không cập nhật được, vui lòng thử lại</string>
+    <!-- Từ chối đơn -->
+    <string name="admin_booking_reject_title">Từ chối đơn?</string>
+    <string name="admin_booking_reject_hint">Lý do từ chối (không bắt buộc)</string>
+    <string name="admin_booking_reject_success">Đã từ chối đơn</string>
+    <string name="admin_booking_reject_error">Không cập nhật được, vui lòng thử lại</string>
+    <!-- Check-in (gán phòng) -->
+    <string name="admin_booking_checkin_title">Chọn phòng nhận</string>
+    <string name="admin_booking_checkin_empty">Không còn phòng trống thuộc loại này</string>
+    <string name="admin_booking_checkin_success">Đã nhận phòng cho khách</string>
+    <string name="admin_booking_checkin_error">Không cập nhật được, vui lòng thử lại</string>
+    <!-- Check-out -->
+    <string name="admin_booking_checkout_title">Xác nhận trả phòng?</string>
+    <string name="admin_booking_checkout_message">Xác nhận khách đã trả phòng, đơn #%1$s hoàn tất?</string>
+    <string name="admin_booking_checkout_success">Đã hoàn tất đơn</string>
+    <string name="admin_booking_checkout_error">Không cập nhật được, vui lòng thử lại</string>
+    <!-- Placeholder tạm cho AdminBookingDetailActivity (chưa làm) -->
+    <string name="admin_booking_detail_todo">Chi tiết đơn — sẽ làm ở SPEC riêng</string>
 
+    <!-- ===================== ADMIN — HỒ SƠ / ĐĂNG XUẤT ===================== -->
+    <string name="admin_profile_title">Hồ sơ quản trị</string>
+    <string name="admin_profile_role">Quản trị viên</string>
+    <string name="cd_admin_avatar_profile">Mở hồ sơ quản trị</string>
+    <string name="cd_back">Quay lại</string>
 
     <!-- ===================== ADMIN — KHÁCH HÀNG ===================== -->
     <string name="admin_customer_title">Quản lý khách hàng</string>
@@ -219,6 +420,27 @@
     <!-- ===================== GIỚI THIỆU ===================== -->
     <string name="about_title">Giới thiệu</string>
     <string name="about_version_prefix">Phiên bản</string>
+    <string name="about_hotel_tagline">Nghỉ dưỡng đẳng cấp giữa thiên nhiên</string>
+    <string name="about_intro_1">Toạ lạc bên bờ biển Nha Trang, Lumina Hotel là điểm đến nghỉ dưỡng đẳng cấp với 120 phòng và biệt thự được thiết kế tinh tế, hoà quyện giữa nét sang trọng hiện đại và không gian thiên nhiên trong lành.</string>
+    <string name="about_intro_2">Khách sạn sở hữu 3 nhà hàng ẩm thực đa phong cách, khu spa thư giãn, hồ bơi vô cực nhìn ra biển và trung tâm hội nghị hiện đại, sẵn sàng phục vụ mọi nhu cầu nghỉ dưỡng lẫn công việc của quý khách.</string>
+
+    <string name="about_stat1_value">120+</string>
+    <string name="about_stat1_label">Phòng &amp; Villa</string>
+    <string name="about_stat2_value">4.9</string>
+    <string name="about_stat2_label">Đánh giá TB</string>
+    <string name="about_stat3_value">15</string>
+    <string name="about_stat3_label">Năm phục vụ</string>
+
+    <string name="about_location_title">Vị trí</string>
+    <string name="about_address_main">Bãi biển Trần Phú, Nha Trang</string>
+    <string name="about_address_detail">Số 12 Đường Biển, Lộc Thọ, Khánh Hòa</string>
+    <string name="about_airport_note">📍 Cách sân bay 35 phút đi ô tô</string>
+
+    <string name="about_contact_title">Liên hệ</string>
+    <string name="about_hotline_label">Hotline 24/7</string>
+    <string name="about_hotline_number">1900 1234</string>
+    <string name="about_email_label">Email</string>
+    <string name="about_email_value">booking@luminahotel.vn</string>
 
     <!-- ===================== EMPTY STATE ===================== -->
     <string name="empty_bookings_title">Chưa có đơn đặt phòng nào</string>
@@ -246,6 +468,21 @@
     <string name="error_default_message">Đã có lỗi xảy ra, vui lòng thử lại.</string>
     <string name="retry">Thử lại</string>
 
+    <!-- ===================== DANH SÁCH PHÒNG (RoomListActivity - SPEC 05) ===================== -->
+    <string name="cd_edit_search">Chỉnh sửa tìm kiếm</string>
+    <string name="cd_toolbar_room_list">Thanh tiêu đề kết quả tìm phòng, hiển thị ngày và số khách đã chọn</string>
+    <string name="sort_price_asc">Giá thấp → cao</string>
+    <string name="sort_price_desc">Giá cao → thấp</string>
+    <string name="sort_rating">Đánh giá cao nhất</string>
+    <string name="sort_popular">Phổ biến nhất</string>
+    <string name="filter_breakfast">Có bữa sáng</string>
+    <string name="filter_available">Còn trống</string>
+    <string name="empty_search_action">Chỉnh bộ lọc</string>
+    <string name="badge_sold_out">Hết phòng</string>
+    <string name="room_list_date_summary_format">%1$s - %2$s · %3$d khách</string>
+    <string name="room_list_result_summary_format">%1$d đêm · %2$d phòng phù hợp</string>
+    <string name="sort_bottom_sheet_title">Sắp xếp theo</string>
+
     <!-- ===================== TRẠNG THÁI LỖI ===================== -->
     <string name="error_state_title">Đã có lỗi xảy ra</string>
     <string name="error_state_desc">Vui lòng kiểm tra kết nối và thử lại</string>
@@ -258,5 +495,134 @@
     <string name="badge_vip">VIP</string>
     <string name="cd_vip_customer">Khách VIP</string>
     <string name="customer_booking_count">%1$d đơn</string>
+    <!-- ===== SPEC 12: BottomSheet hồ sơ khách hàng ===== -->
+    <string name="customer_detail_title">Hồ sơ khách hàng</string>
+    <string name="customer_detail_cd_close">Đóng</string>
+    <string name="customer_detail_switch_vip">Đánh dấu VIP</string>
+    <string name="customer_detail_label_total_bookings">Tổng đơn</string>
+    <string name="customer_detail_label_total_spent">Tổng chi tiêu</string>
+    <string name="customer_detail_recent_bookings_title">5 đơn gần nhất</string>
+    <string name="customer_detail_empty_bookings">Chưa có đơn đặt phòng nào</string>
+    <string name="customer_detail_btn_call">Gọi điện</string>
+
+
+    <string name="greeting_morning">Chào buổi sáng,</string>
+    <string name="greeting_afternoon">Chào buổi chiều,</string>
+    <string name="greeting_evening">Chào buổi tối,</string>
+    <string name="home_search_hint">Bạn muốn đi đâu?</string>
+    <string name="home_featured_title">Phòng nổi bật</string>
+    <string name="home_recent_title">Đã xem gần đây</string>
+    <string name="see_all">Xem tất cả</string>
+    <string name="badge_hot">HOT</string>
+    <string name="room_meta_format">%1$dm² · %2$d khách</string>
+    <string name="review_count_format">(%1$d)</string>
+    <string name="promo_label_placeholder">ƯU ĐÃI MÙA THU</string>
+    <string name="promo_title_placeholder">Giảm 30% phòng Deluxe</string>
+    <string name="promo_expire_placeholder">Đến 30/11/2025</string>
+    <string name="promo_label_format">GIẢM %1$d%%</string>
+    <string name="promo_expire_format">Hết hạn: %1$s</string>
+    <string name="feature_not_ready">Màn này chưa được dựng</string>
+    <string name="no_app_to_handle_action">Không tìm thấy ứng dụng để thực hiện thao tác này</string>
+    <string name="search_screen_title">Tìm phòng</string>
+    <string name="search_date_range_label">NGÀY NHẬN - TRẢ PHÒNG</string>
+    <string name="search_guest_text">Khách</string>
+    <string name="search_price_range_label">Khoảng giá / đêm</string>
+    <string name="search_amenity_label">Tiện nghi mong muốn</string>
+    <string name="search_price_range_content_desc">Thanh trượt chọn khoảng giá phòng</string>
+    <string name="search_error_date_order">Ngày trả phòng phải sau ngày nhận phòng</string>
+    <string name="search_price_value_format">%1$s - %2$s</string>
+    <string name="night_count_format">%1$d đêm</string>
+    <string name="chip_all">Tất cả</string>
+    <string name="chip_standard">Standard</string>
+    <string name="chip_deluxe">Deluxe</string>
+    <string name="chip_suite">Suite</string>
+    <string name="chip_villa">Villa</string>
+    <string name="amenity_wifi">Wifi</string>
+    <string name="amenity_pool">Hồ bơi</string>
+    <string name="amenity_breakfast">Bữa sáng</string>
+    <string name="amenity_spa">Spa</string>
+    <string name="amenity_parking">Đỗ xe</string>
+    <string name="amenity_gym">Gym</string>
+    <string name="filter_advanced_title">Bộ lọc nâng cao</string>
+    <string name="stepper_minus">−</string>
+    <string name="stepper_plus">+</string>
+
+    <string name="action_reset_filter">Đặt lại</string>
+    <string name="filter_status_count_format">Đang áp dụng %d bộ lọc</string>
+
+    <!-- ===== CHÈN VÀO strings.xml, ngay dưới khối "===== ĐƠN CỦA TÔI =====" ===== -->
+    <!-- 2 tab còn thiếu để đủ 5 tab theo SPEC 07 (thay cho bookings_tab_upcoming) -->
+    <string name="bookings_tab_pending">Chờ xác nhận</string>
+    <string name="bookings_tab_confirmed">Đã xác nhận</string>
+
+    <!-- Dialog "Hủy đơn đặt phòng?" -->
+    <string name="dialog_cancel_booking_title">Hủy đơn đặt phòng?</string>
+    <string name="dialog_cancel_booking_message">Bạn có chắc muốn hủy đơn #%1$s? Thao tác này không thể hoàn tác.</string>
+    <string name="dialog_cancel_booking_negative">Không</string>
+    <string name="dialog_cancel_booking_positive">Hủy đơn</string>
+    <string name="snackbar_cancel_success">Đã hủy đơn</string>
+    <string name="snackbar_cancel_failed">Không thể hủy đơn này</string>
+
+    <!-- Dialog Đánh giá -->
+    <string name="dialog_review_title">Đánh giá phòng</string>
+    <string name="dialog_review_hint_comment">Chia sẻ trải nghiệm của bạn…</string>
+    <string name="dialog_review_error_rating">Vui lòng chọn số sao đánh giá</string>
+    <string name="dialog_review_submit">Gửi đánh giá</string>
+    <string name="snackbar_review_success">Cảm ơn bạn đã đánh giá!</string>
+    <string name="bookings_btn_reviewed">Đã đánh giá</string>
+    <string name="bookings_tab_filter_cd">Bộ lọc trạng thái đơn</string>
+
+    <string name="success_status_paid">Đã thanh toán</string>
+    <string name="success_code_copied">Đã sao chép mã đơn</string>
+    <string name="success_email_note">Bạn sẽ nhận được email xác nhận tại %1$s trong vài phút tới. Vui lòng kiểm tra hộp thư.</string>
+    <string name="success_status_unpaid">Chưa thanh toán</string>
+    <!-- Dùng cho AboutActivity: nút Back tròn trên ảnh bìa + lớp phủ gradient đáy ảnh -->
+    <color name="white_20">#33FFFFFF</color>
+    <color name="navy_60">#990F2A47</color>
+
+    <!-- ===== SPEC 14: Admin Dashboard (layout thật) ===== -->
+    <string name="admin_dashboard_overline">Lumina Admin</string>
+    <string name="admin_dashboard_greeting">Xin chào, Admin</string>
+    <string name="admin_dashboard_overview">Tổng quan hoạt động</string>
+    <string name="chip_time_month">Tháng này</string>
+    <string name="chip_time_today">Hôm nay</string>
+    <string name="chip_time_week">Tuần này</string>
+    <string name="chip_time_custom">Tùy chọn</string>
+    <string name="label_total_revenue">Doanh thu</string>
+    <string name="label_new_bookings">Đơn mới</string>
+    <string name="label_occupancy_rate">Tỷ lệ lấp phòng</string>
+    <string name="label_vacant_rooms">Phòng trống</string>
+    <string name="title_revenue_chart">Doanh thu</string>
+    <string name="title_type_share">Tỷ trọng theo loại phòng</string>
+    <string name="title_latest_bookings">Đơn mới nhất</string>
+    <string name="placeholder_dash">—</string>
+
+    <string name="dash_type_count">%1$d đơn</string>
+    <string name="dash_booking_meta">%1$s · %2$s · %3$d đêm</string>
+    <string name="dash_percent">%1$d%%</string>
+    <string name="dash_greeting_admin">%1$s Admin</string>
+    <string name="dash_prev_month">tháng trước</string>
+    <string name="dash_prev_day">hôm qua</string>
+    <string name="dash_prev_week">tuần trước</string>
+    <string name="dash_prev_custom">kỳ trước</string>
+    <string name="dash_highlight_up">Doanh thu tăng so với %1$s</string>
+    <string name="dash_highlight_down">Doanh thu giảm so với %1$s</string>
+    <string name="dash_highlight_same">Doanh thu không đổi so với %1$s</string>
+    <string name="dash_highlight_none">Chưa có dữ liệu kỳ trước để so sánh</string>
+    <string name="dash_delta_up">+%1$d%%</string>
+    <string name="dash_delta_down">-%1$d%%</string>
+    <string name="dash_delta_zero">0%%</string>
+    <string name="dash_range_format">%1$s – %2$s</string>
+    <string name="dash_chart_empty">Chưa có doanh thu trong khoảng này</string>
+    <string name="dash_pick_range">Chọn khoảng ngày</string>
+    <string name="dash_load_error">Không tải được dữ liệu, kéo xuống để thử lại</string>
+
+    <string name="hint_search_customer">Tìm theo tên / SĐT...</string>
+    <string name="customer_count_format">%1$d khách</string>
+    <string name="empty_customer_search">Không tìm thấy khách hàng nào</string>
+    <string name="cd_clear_search">Xoá tìm kiếm</string>
+    <string name="google_web_client_id" translatable="false">443768524685-vj4ad4vlfs2q7kbff5i9n98p2es3e6h4.apps.googleusercontent.com</string>
+    <string name="vnp_tmn_code" translatable="false">ZEO15KKU</string>
+    <string name="vnp_hash_secret" translatable="false">THZTEJSHBXUCUFDJMIETAKVIOVGVPVKE</string>
 
 </resources>

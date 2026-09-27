@@ -177,6 +177,15 @@ public class RoomTypeDao {
                 new String[]{ String.valueOf(typeId) }) > 0;
     }
 
+    /**
+     * Loại này đã TỪNG có đơn nào chưa (mọi trạng thái). bookings.room_type_id là ON DELETE CASCADE,
+     * nên xoá loại phòng sẽ xoá luôn lịch sử đơn, thanh toán và doanh thu của loại đó.
+     */
+    public boolean hasAnyBookings(int typeId) {
+        return querySingleInt("SELECT COUNT(*) FROM bookings WHERE room_type_id = ?",
+                new String[]{ String.valueOf(typeId) }) > 0;
+    }
+
     /** Cập nhật lại điểm trung bình và số lượt đánh giá sau khi có review mới. */
     public void refreshRatingCache(int typeId) {
         SQLiteDatabase db = helper.getWritableDatabase();

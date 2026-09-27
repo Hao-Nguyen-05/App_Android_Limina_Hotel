@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream"
+    android:fillViewport="true"
+    tools:theme="@style/Theme.Lumina">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="40dp">
+
+        <!-- 1. TIÊU ĐỀ + NÚT QUAY LẠI (Activity riêng, không phải tab nên cần nút Back) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="-8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_back"
+                android:src="@drawable/ic_back"
+                app:tint="@color/navy" />
+
+            <TextView
+                android:id="@+id/tvScreenTitle"
+                style="@style/TextAppearance.Lumina.H1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/admin_profile_title" />
+        </LinearLayout>
+
+        <!-- 2. KHỐI AVATAR — giống hệt ProfileFragment (chữ cái đầu, viền vàng), Admin không có upload ảnh -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:background="@drawable/bg_circle_gold_soft"
+                android:contentDescription="@null"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Lumina.Circle"
+                app:strokeColor="@color/gold"
+                app:strokeWidth="2dp" />
+
+            <TextView
+                android:id="@+id/tvProfileAvatarInitial"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/playfair_display_bold"
+                android:gravity="center"
+                android:textColor="@color/navy"
+                android:textSize="32sp"
+                tools:text="A" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvProfileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/navy"
+            android:textSize="17sp"
+            tools:text="Admin" />
+
+        <TextView
+            android:id="@+id/tvProfileRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="2dp"
+            android:text="@string/admin_profile_role"
+            android:textColor="@color/gold_dark"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvProfileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/muted"
+            android:textSize="12sp"
+            tools:text="admin@luminahotel.vn" />
+
+        <!-- 3. NÚT ĐĂNG XUẤT — cùng style Outline đỏ như bên khách, không thêm gì khác -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            style="@style/Widget.Lumina.Button.Outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/profile_menu_logout"
+            android:textColor="@color/status_red_text"
+            app:strokeColor="@color/status_red_text" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

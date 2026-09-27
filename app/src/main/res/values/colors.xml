@@ -14,6 +14,9 @@
     <color name="gold_dark">#A6853C</color>
     <color name="gold_light">#DFCA8F</color>
     <color name="gold_subtle">#FBF6EB</color>
+    <!-- Gold trong suốt: nền/viền ô logo Splash -->
+    <color name="gold_15">#26C9A961</color>
+    <color name="gold_30">#4DC9A961</color>
 
     <!-- ===== Nền & bề mặt ===== -->
     <color name="cream">#FAF9F6</color>

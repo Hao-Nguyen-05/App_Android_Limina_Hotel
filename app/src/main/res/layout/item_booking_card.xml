@@ -23,9 +23,10 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivThumbnail"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/cd_booking_thumbnail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Lumina.Corner12"
@@ -93,17 +94,40 @@
 
         <TextView
             android:id="@+id/tvTotal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textColor="@color/navy"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/btnAction"
+            app:layout_constraintEnd_toStartOf="@id/btnCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewDivider"
             tools:text="13.824.000đ" />
 
+        <!-- Nút phụ "Hủy đơn" (chữ đỏ) — chỉ hiện khi status = pending. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/bookings_btn_cancel"
+            android:textColor="@color/status_red_text"
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/btnAction"
+            app:layout_constraintEnd_toStartOf="@id/btnAction"
+            app:layout_constraintTop_toBottomOf="@id/viewDivider"
+            tools:visibility="visible" />
+
+        <!-- Nút chính: đổi text/kiểu theo trạng thái ("Chi tiết →" / "Đánh giá" / "Đã đánh giá"). -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAction"
             style="@style/Widget.Lumina.Button.Outline"
@@ -117,7 +141,7 @@
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewDivider"
-            tools:text="Huỷ đơn" />
+            tools:text="Chi tiết →" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

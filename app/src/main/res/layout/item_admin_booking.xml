@@ -172,6 +172,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:text="@string/admin_booking_action_reject"
+                android:textColor="@color/status_red_text"
                 android:textSize="12sp"
                 android:visibility="gone"
                 tools:visibility="visible" />

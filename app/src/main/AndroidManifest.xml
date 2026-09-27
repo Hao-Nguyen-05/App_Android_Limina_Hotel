@@ -14,16 +14,79 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Lumina">
+
+        <!-- Màn khởi động: điểm vào duy nhất của app -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.customer.SplashActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/Theme.Lumina.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.customer.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.customer.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.customer.RegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.customer.RoomListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Lumina.Dark" />
+
+        <activity
+            android:name=".ui.customer.RoomDetailActivity"
+            android:theme="@style/Theme.Lumina.Dark" />
+
+        <activity
+            android:name=".ui.customer.PaymentActivity"
+            android:theme="@style/Theme.Lumina.Dark"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="lumina" android:host="payment-return" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.customer.BookingSuccessActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.customer.AboutActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Lumina.Dark" />
+
+        <activity
+            android:name=".ui.admin.AdminMainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.admin.AdminProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.admin.AddEditRoomTypeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.admin.AddEditRoomActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream"
+    android:fillViewport="true"
+    tools:theme="@style/Theme.Lumina">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="100dp">
+
+        <TextView
+            android:id="@+id/tvScreenTitle"
+            style="@style/TextAppearance.Lumina.H1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/search_screen_title" />
+
+        <!-- 1. KHỐI NGÀY -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvDateRange"
+            style="@style/Widget.Lumina.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvLabelDate"
+                    style="@style/TextAppearance.Lumina.Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_date_range_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/layoutCheckIn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintEnd_toStartOf="@id/viewDateDivider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelDate">
+
+                    <TextView
+                        android:id="@+id/tvCheckInLabel"
+                        style="@style/TextAppearance.Lumina.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_label_checkin" />
+
+                    <TextView
+                        android:id="@+id/tvCheckInDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/ink"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="20/09/2025" />
+
+                    <TextView
+                        android:id="@+id/tvCheckInWeekday"
+                        style="@style/TextAppearance.Lumina.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/faint"
+                        tools:text="Thứ 7" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/viewDateDivider"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@color/line"
+                    app:layout_constraintBottom_toBottomOf="@id/layoutCheckIn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutCheckIn" />
+
+                <LinearLayout
+                    android:id="@+id/layoutCheckOut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/viewDateDivider"
+                    app:layout_constraintTop_toTopOf="@id/layoutCheckIn">
+
+                    <TextView
+                        android:id="@+id/tvCheckOutLabel"
+                        style="@style/TextAppearance.Lumina.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_label_checkout" />
+
+                    <TextView
+                        android:id="@+id/tvCheckOutDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/ink"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="23/09/2025" />
+
+                    <TextView
+                        android:id="@+id/tvCheckOutWeekday"
+                        style="@style/TextAppearance.Lumina.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/faint"
+                        tools:text="Thứ 3" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvNightCount"
+                    style="@style/Widget.Lumina.Badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_badge_promo"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/gold_dark"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/viewDateDivider"
+                    app:layout_constraintEnd_toEndOf="@id/viewDateDivider"
+                    app:layout_constraintStart_toStartOf="@id/viewDateDivider"
+                    app:layout_constraintTop_toTopOf="@id/viewDateDivider"
+                    tools:text="3 đêm" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 2. KHỐI SỐ KHÁCH -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvGuest"
+            style="@style/Widget.Lumina.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvLabelGuest"
+                    style="@style/TextAppearance.Lumina.Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_label_guests" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvGuestText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/search_guest_text"
+                        android:textColor="@color/ink"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/btnGuestMinus"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_card_stroke"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:text="@string/stepper_minus"
+                        android:textColor="@color/navy"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tvGuestCount"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/ink"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="2" />
+
+                    <TextView
+                        android:id="@+id/btnGuestPlus"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_card_stroke"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:text="@string/stepper_plus"
+                        android:textColor="@color/navy"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 3. KHỐI LOẠI PHÒNG -->
+        <TextView
+            android:id="@+id/tvLabelRoomType"
+            style="@style/TextAppearance.Lumina.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/search_label_room_type" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgRoomType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAll"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/chip_all" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipStandard"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_standard" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDeluxe"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_deluxe" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSuite"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_suite" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipVilla"
+                    style="@style/Widget.Lumina.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_villa" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/layoutFilterStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvFilterStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/gold_dark"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="Đang áp dụng 2 bộ lọc" />
+
+            <TextView
+                android:id="@+id/tvResetFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="4dp"
+                android:text="@string/action_reset_filter"
+                android:textColor="@color/muted"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 4. BỘ LỌC NÂNG CAO -->
+        <LinearLayout
+            android:id="@+id/layoutAdvanced"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="8dp"
+            android:minHeight="48dp">
+
+            <TextView
+                android:id="@+id/tvAdvancedTitle"
+                style="@style/TextAppearance.Lumina.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/filter_advanced_title"
+                tools:text="Bộ lọc nâng cao" />
+
+            <ImageView
+                android:id="@+id/ivAdvancedArrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_chevron_down"
+                android:contentDescription="@string/filter_advanced_title"
+                app:tint="@color/muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAdvancedContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvPriceLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_price_range_label"
+                    android:textColor="@color/ink"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvPriceValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gold_dark"
+                    android:textStyle="bold"
+                    tools:text="1tr - 5tr" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/sliderPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="500000"
+                android:valueFrom="500000"
+                android:valueTo="10000000"
+                android:contentDescription="@string/search_price_range_content_desc"
+                app:values="@array/price_slider_default_values"
+                app:thumbColor="@color/gold"
+                app:trackColorActive="@color/gold"
+                app:trackColorInactive="@color/line" />
+
+            <TextView
+                android:id="@+id/tvAmenityLabel"
+                style="@style/TextAppearance.Lumina.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/search_amenity_label" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgAmenity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:singleSelection="false" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSearch"
+            style="@style/Widget.Lumina.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/action_search" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

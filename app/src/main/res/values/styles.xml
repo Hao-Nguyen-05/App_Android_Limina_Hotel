@@ -227,4 +227,27 @@
         <item name="cornerSize">12dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.Lumina.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.Lumina.Circle" parent="ShapeAppearance.Material3.Corner.Full" />
+
+    <style name="ShapeAppearance.Lumina.Corner8" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <!-- Chip lọc đặt trên nền navy (header Dashboard) -->
+    <style name="Widget.Lumina.Chip.Filter.OnDark" parent="Widget.Lumina.Chip.Filter">
+        <item name="chipSurfaceColor">@android:color/transparent</item>
+        <item name="chipBackgroundColor">@color/selector_chip_on_dark_bg</item>
+        <item name="android:textColor">@color/selector_chip_on_dark_text</item>
+        <item name="chipStrokeColor">@color/gold_30</item>
+    </style>
+
+    <!-- Badge trạng thái nhỏ (nền/màu chữ set ở layout hoặc StatusUtils) -->
+    <style name="Widget.Lumina.StatusBadge" parent="Widget.Lumina.Badge" />
+
 </resources>
