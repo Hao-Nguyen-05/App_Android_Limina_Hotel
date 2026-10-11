@@ -76,8 +76,11 @@ public class AdminBookingAdapter extends BaseAdapter<BookingWithDetail, ItemAdmi
         binding.tvBookingCode.setText(ctx.getString(R.string.admin_booking_code, item.getBooking().getBookingCode()));
         StatusUtils.applyBookingStatus(binding.tvBookingStatus, status);
 
-        binding.tvCustomerInfo.setText(ctx.getString(R.string.admin_booking_customer_info,
-                item.getCustomerName(), item.getCustomerPhone()));
+        String phone = item.getCustomerPhone();
+        binding.tvCustomerInfo.setText(TextUtils.isEmpty(phone)
+                ? item.getCustomerName()
+                : ctx.getString(R.string.admin_booking_customer_info,
+                        item.getCustomerName(), phone));
 
         String roomPart = item.getRoomNumber() != null
                 ? item.getRoomNumber()

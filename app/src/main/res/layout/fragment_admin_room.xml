@@ -47,6 +47,36 @@
                     android:textColor="@color/surface"
                     android:textSize="20sp" />
 
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp">
+
+                    <ImageButton
+                        android:id="@+id/btnFilter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/admin_room_filter_cd_open"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_filter"
+                        app:tint="@color/surface"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvFilterBadge"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/gold"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp" />
+                </FrameLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddRoom"
                     style="@style/Widget.Lumina.Button.Gold"
@@ -67,6 +97,24 @@
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
         </LinearLayout>
+
+        <!-- 1b. HÀNG CHIP "ĐANG ÁP DỤNG" (bộ lọc loại phòng / tầng) — ẩn khi không lọc -->
+        <HorizontalScrollView
+            android:id="@+id/svActiveFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgActiveFilters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="8dp"
+                app:singleLine="true" />
+        </HorizontalScrollView>
 
         <!-- 2. HÀNG CHIP LỌC TRẠNG THÁI — cuộn ngang, mỗi chip có nhãn + số đếm -->
         <HorizontalScrollView

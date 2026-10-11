@@ -51,12 +51,14 @@
         <activity
             android:name=".ui.customer.PaymentActivity"
             android:theme="@style/Theme.Lumina.Dark"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="lumina" android:host="payment-return" />
+                <data android:scheme="lumina" android:host="momo-return" />
             </intent-filter>
         </activity>
 
@@ -86,6 +88,10 @@
             android:name=".ui.admin.AddEditRoomActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.admin.AdminBookingDetailActivity"
+            android:exported="false" />
 
     </application>
 

@@ -37,6 +37,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // password cho phép NULL, thêm UNIQUE(booking_id) vào payments.
     private static final int DATABASE_VERSION = 2;
 
+    /** Thể hiện dùng chung cho cả app (Singleton). volatile để an toàn giữa các luồng. */
+    private static volatile DatabaseHelper instance;
+
+    /**
+     * Lấy đối tượng DatabaseHelper dùng chung. Luôn dùng applicationContext để không giữ
+     * tham chiếu tới Activity (tránh rò rỉ bộ nhớ). Double-checked locking.
+     */
+    public static DatabaseHelper getInstance(Context context) {
+        if (instance == null) {
+            synchronized (DatabaseHelper.class) {
+                if (instance == null) {
+                    instance = new DatabaseHelper(context.getApplicationContext());
+                }
+            }
+        }
+        return instance;
+    }
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

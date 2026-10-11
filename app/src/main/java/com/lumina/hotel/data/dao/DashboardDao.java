@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DashboardDao {
     private final DatabaseHelper helper;
-    public DashboardDao(Context context) { this.helper = new DatabaseHelper(context); }
+    public DashboardDao(Context context) { this.helper = DatabaseHelper.getInstance(context); }
 
     private static final String REVENUE_STATUSES = "('confirmed','checked_in','completed')";
 
@@ -75,6 +75,7 @@ public class DashboardDao {
         } finally { if (c != null) c.close(); }
     }
 
+    /** Tỷ trọng số đơn theo loại phòng — chỉ tính đơn còn hiệu lực (cùng bộ lọc với doanh thu). */
     public List<TypeShareItem> getTypeShare(long from, long to) {
         List<TypeShareItem> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -82,9 +83,10 @@ public class DashboardDao {
         try {
             c = db.rawQuery(
                     "SELECT rt.type_name AS name, COUNT(*) AS cnt, " +
-                            "ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM bookings WHERE created_at BETWEEN ? AND ?)) AS pct " +
+                            "ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM bookings " +
+                            "WHERE booking_status IN " + REVENUE_STATUSES + " AND created_at BETWEEN ? AND ?)) AS pct " +
                             "FROM bookings b JOIN room_types rt ON b.room_type_id = rt.id " +
-                            "WHERE b.created_at BETWEEN ? AND ? " +
+                            "WHERE b.booking_status IN " + REVENUE_STATUSES + " AND b.created_at BETWEEN ? AND ? " +
                             "GROUP BY rt.id ORDER BY cnt DESC",
                     new String[]{ String.valueOf(from), String.valueOf(to), String.valueOf(from), String.valueOf(to) });
             while (c.moveToNext()) {

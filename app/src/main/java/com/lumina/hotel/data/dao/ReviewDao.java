@@ -21,7 +21,7 @@ public class ReviewDao {
     private final DatabaseHelper helper;
 
     public ReviewDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     /** Vài đánh giá mới nhất của một loại phòng, kèm tên người đánh giá. */

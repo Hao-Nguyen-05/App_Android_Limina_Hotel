@@ -24,12 +24,17 @@ public class AdminMainActivity extends AppCompatActivity {
         binding = ActivityAdminMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Header navy của các tab tự cộng chiều cao status bar (xem setupHeaderInset ở từng Fragment),
+        // nên Activity KHÔNG được padding top nữa, nếu không sẽ bị cộng đôi.
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            binding.frameAdminContainer.setPadding(0, systemBars.top, 0, 0);
             binding.bnvAdmin.setPadding(0, 0, 0, systemBars.bottom);
             return insets;
         });
+
+        // Header navy chạy lên sát mép trên → icon thanh trạng thái phải màu sáng
+        WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
+                .setAppearanceLightStatusBars(false);
 
         if (savedInstanceState == null) switchTab(R.id.nav_admin_dashboard);
 

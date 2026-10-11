@@ -16,7 +16,7 @@ public class FavoriteDao {
     private final DatabaseHelper helper;
 
     public FavoriteDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     public boolean isFavorite(int userId, int typeId) {

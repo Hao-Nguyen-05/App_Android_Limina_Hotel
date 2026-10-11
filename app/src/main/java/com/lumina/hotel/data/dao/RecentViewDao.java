@@ -21,7 +21,7 @@ public class RecentViewDao {
     private final DatabaseHelper helper;
 
     public RecentViewDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     /**

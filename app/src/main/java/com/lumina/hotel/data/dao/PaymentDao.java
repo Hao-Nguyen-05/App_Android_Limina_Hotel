@@ -19,7 +19,7 @@ public class PaymentDao {
     private final DatabaseHelper helper;
 
     public PaymentDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     public Payment getByBookingId(int bookingId) {

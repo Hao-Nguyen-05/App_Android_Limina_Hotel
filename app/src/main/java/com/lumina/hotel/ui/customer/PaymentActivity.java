@@ -9,12 +9,14 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,6 +34,7 @@ import com.lumina.hotel.util.DateUtils;
 import com.lumina.hotel.util.PriceUtils;
 import com.lumina.hotel.util.SessionManager;
 import com.lumina.hotel.util.VnPayHelper;
+import com.lumina.hotel.util.MoMoHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +46,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     private static final long HOLD_MILLIS = 15 * 60 * 1000L; // 15 phút
     private static final String VNPAY_RETURN_PREFIX = "lumina://payment-return";
+    private static final String MOMO_RETURN_PREFIX = "lumina://momo-return";
     static final String EXTRA_PAYMENT_METHOD = "extra_payment_method";
     private ActivityPaymentBinding binding;
 
@@ -51,7 +55,8 @@ public class PaymentActivity extends AppCompatActivity {
     private PromotionDao promotionDao;
     private SessionManager sessionManager;
     private VnPayHelper vnPayHelper;
-
+    private MoMoHelper momoHelper;
+    private boolean momoCustomTabOpen = false;
     private int typeId;
     private long checkIn;
     private long checkOut;
@@ -100,9 +105,24 @@ public class PaymentActivity extends AppCompatActivity {
         promotionDao = new PromotionDao(this);
         sessionManager = new SessionManager(this);
         vnPayHelper = new VnPayHelper(getString(R.string.vnp_tmn_code), getString(R.string.vnp_hash_secret));
+        momoHelper = new MoMoHelper();
 
         setupInsets();
         setupClicks();
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (binding.webViewVnpay.getVisibility() == View.VISIBLE) {
+                    closeVnPayWebView();
+                    binding.btnPayNow.setEnabled(true);
+                    return;
+                }
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
         loadData();
     }
 
@@ -161,8 +181,10 @@ public class PaymentActivity extends AppCompatActivity {
                 .into(binding.ivRoomThumb);
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM", Locale.getDefault());
-        binding.tvDateRange.setText("📅 " + df.format(checkIn) + " → " + df.format(checkOut));
-        binding.tvNightGuest.setText(nights + " đêm · " + numGuests + " khách");
+        binding.tvDateRange.setText(getString(R.string.payment_date_range_format,
+                df.format(checkIn), df.format(checkOut)));
+        binding.tvNightGuest.setText(getString(R.string.payment_night_guest_format,
+                nights, numGuests));
     }
 
     /* ================== ĐẾM NGƯỢC GIỮ CHỖ ================== */
@@ -204,21 +226,24 @@ public class PaymentActivity extends AppCompatActivity {
         vat = PriceUtils.calcVat(subtotal, serviceFee, discount);
         total = PriceUtils.calcTotal(subtotal, serviceFee, discount, vat);
 
-        binding.tvPriceLineLabel.setText(PriceUtils.formatVnd(roomType.getBasePrice()) + " × "
-                + getString(R.string.night_count_format, nights));
+        binding.tvPriceLineLabel.setText(getString(R.string.payment_price_line_format,
+                PriceUtils.formatVnd(roomType.getBasePrice()),
+                getString(R.string.night_count_format, nights)));
         binding.tvPriceLineValue.setText(PriceUtils.formatVnd(subtotal));
         binding.tvServiceFeeValue.setText(PriceUtils.formatVnd(serviceFee));
         binding.tvVatValue.setText(PriceUtils.formatVnd(vat));
 
         if (discount > 0) {
             binding.layoutDiscountLine.setVisibility(View.VISIBLE);
-            binding.tvDiscountValue.setText("-" + PriceUtils.formatVnd(discount));
+            binding.tvDiscountValue.setText(getString(R.string.payment_discount_value_format,
+                    PriceUtils.formatVnd(discount)));
         } else {
             binding.layoutDiscountLine.setVisibility(View.GONE);
         }
 
         binding.tvTotalValue.setText(PriceUtils.formatVnd(total));
-        binding.btnPayNow.setText(getString(R.string.payment_btn_submit) + " · " + PriceUtils.formatVnd(total));
+        binding.btnPayNow.setText(getString(R.string.payment_btn_submit_amount_format,
+                getString(R.string.payment_btn_submit), PriceUtils.formatVnd(total)));
     }
 
     /* ================== MÃ GIẢM GIÁ ================== */
@@ -239,8 +264,8 @@ public class PaymentActivity extends AppCompatActivity {
                 } else {
                     discount = PriceUtils.calcDiscount(subtotal, promo.getDiscountPercent(), promo.getMaxDiscount());
                     binding.tvPromoResult.setTextColor(getColor(R.color.status_green_text));
-                    binding.tvPromoResult.setText("Đã áp dụng mã " + promo.getCode()
-                            + " (-" + promo.getDiscountPercent() + "%)");
+                    binding.tvPromoResult.setText(getString(R.string.payment_promo_applied_format,
+                            promo.getCode(), promo.getDiscountPercent()));
                 }
                 recalcPrices();
             });
@@ -293,6 +318,8 @@ public class PaymentActivity extends AppCompatActivity {
                 binding.pbLoading.setVisibility(View.GONE);
                 if ("vnpay".equals(selectedMethod)) {
                     openVnPayWebView();
+                } else if ("momo".equals(selectedMethod)) {
+                    startMoMoPayment();
                 } else {
                     finalizeBooking(selectedMethod, null);
                 }
@@ -346,8 +373,8 @@ public class PaymentActivity extends AppCompatActivity {
         } else {
             binding.btnPayNow.setEnabled(true);
             new MaterialAlertDialogBuilder(this)
-                    .setTitle(R.string.payment_expired_title)
-                    .setMessage(getString(R.string.error_network) + " (mã lỗi: " + responseCode + ")")
+                    .setTitle(R.string.payment_failed_title)
+                    .setMessage(getString(R.string.payment_failed_message, responseCode))
                     .setPositiveButton(R.string.action_ok, null)
                     .show();
         }
@@ -358,6 +385,60 @@ public class PaymentActivity extends AppCompatActivity {
         binding.webViewVnpay.loadUrl("about:blank");
         binding.svContent.setVisibility(View.VISIBLE);
         binding.layoutBottomBar.setVisibility(View.VISIBLE);
+    }
+
+    /* ================== MOMO THẬT (PROMPT #10) ================== */
+
+    private void startMoMoPayment() {
+        binding.btnPayNow.setEnabled(false);
+        binding.pbLoading.setVisibility(View.VISIBLE);
+
+        String orderId = "PAY" + System.currentTimeMillis();
+        String orderInfo = "Thanh toan dat phong " + roomType.getTypeName();
+
+        AppExecutors.io(() -> {
+            String payUrl = momoHelper.createPaymentRequest(total, orderId, orderInfo);
+            AppExecutors.runOnUiSafe(this, () -> {
+                binding.pbLoading.setVisibility(View.GONE);
+                if (payUrl == null) {
+                    binding.btnPayNow.setEnabled(true);
+                    Snackbar.make(binding.getRoot(), R.string.error_network, Snackbar.LENGTH_LONG)
+                            .setAnchorView(binding.layoutBottomBar).show();
+                    return;
+                }
+                openMoMoCustomTab(payUrl);
+            });
+        });
+    }
+
+    private void openMoMoCustomTab(String payUrl) {
+        momoCustomTabOpen = true;
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+        customTabsIntent.launchUrl(this, Uri.parse(payUrl));
+    }
+
+
+    private void handleMoMoReturn(String returnUrl) {
+        Uri uri = Uri.parse(returnUrl);
+        Map<String, String> params = new HashMap<>();
+        for (String name : uri.getQueryParameterNames()) {
+            params.put(name, uri.getQueryParameter(name));
+        }
+        boolean validSignature = momoHelper.verifyReturnParams(params);
+        String resultCode = params.get("resultCode");
+
+        closeVnPayWebView();
+
+        if (validSignature && "0".equals(resultCode)) {
+            finalizeBooking("momo", params.get("transId"));
+        } else {
+            binding.btnPayNow.setEnabled(true);
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.payment_failed_title)
+                    .setMessage(getString(R.string.payment_failed_message, resultCode))
+                    .setPositiveButton(R.string.action_ok, null)
+                    .show();
+        }
     }
 
     /** Ghi booking + payments thật — dùng chung cho VNPay (sau khi verify) và MoMo/Thẻ/Tiền mặt (demo cũ). */
@@ -414,13 +495,23 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (binding.webViewVnpay.getVisibility() == View.VISIBLE) {
-            closeVnPayWebView();
-            binding.btnPayNow.setEnabled(true);
-            return;
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        Uri data = intent.getData();
+        if (data != null && data.toString().startsWith(MOMO_RETURN_PREFIX)) {
+            momoCustomTabOpen = false;
+            handleMoMoReturn(data.toString());
         }
-        super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (momoCustomTabOpen) {
+            momoCustomTabOpen = false;
+            binding.btnPayNow.setEnabled(true);
+        }
     }
 
     @Override

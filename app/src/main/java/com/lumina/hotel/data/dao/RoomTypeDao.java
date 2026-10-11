@@ -23,7 +23,7 @@ public class RoomTypeDao {
     private final DatabaseHelper helper;
 
     public RoomTypeDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     // ---------------- ĐỌC ----------------

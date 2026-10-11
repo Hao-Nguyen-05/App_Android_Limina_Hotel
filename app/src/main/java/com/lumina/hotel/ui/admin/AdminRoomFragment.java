@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.lumina.hotel.R;
@@ -26,16 +27,21 @@ import com.lumina.hotel.data.dao.RoomDao;
 import com.lumina.hotel.databinding.BottomSheetRoomStatusBinding;
 import com.lumina.hotel.databinding.FragmentAdminRoomBinding;
 import com.lumina.hotel.model.Room;
+import com.lumina.hotel.model.RoomFilter;
+import com.lumina.hotel.model.RoomType;
 import com.lumina.hotel.model.RoomWithType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /** SPEC 10 — Tab "Phòng" của Admin: lưới 2 cột + lọc trạng thái + đổi trạng thái + xóa. */
-public class AdminRoomFragment extends Fragment implements AdminRoomAdapter.OnRoomLongClickListener {
+public class AdminRoomFragment extends Fragment
+        implements AdminRoomAdapter.OnRoomLongClickListener, RoomFilterBottomSheet.OnFilterAppliedListener {
 
     private static final int DELETE_OK = 0;
     private static final int DELETE_BLOCKED = 1;
@@ -50,6 +56,9 @@ public class AdminRoomFragment extends Fragment implements AdminRoomAdapter.OnRo
     private int headerPaddingTop;
     private int loadToken = 0;
     private String currentFilter = "all"; // "all" | available | booked | occupied | cleaning | maintenance
+    private RoomFilter roomFilter = new RoomFilter(); // bộ lọc nâng cao (loại phòng + tầng), nạp lại trong onViewCreated
+    private Map<Integer, String> typeNames = new HashMap<>(); // id loại phòng -> tên, dùng cho chip "đang áp dụng"
+
 
     @Nullable
     @Override
@@ -73,13 +82,14 @@ public class AdminRoomFragment extends Fragment implements AdminRoomAdapter.OnRo
         binding.rvRooms.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         binding.rvRooms.setAdapter(adapter);
 
-        binding.layoutEmpty.tvEmptyTitle.setText(R.string.admin_room_empty_title);
-        binding.layoutEmpty.tvEmptyDesc.setText(R.string.admin_room_empty_desc);
+        roomFilter = RoomFilter.load(requireContext());
+
         binding.layoutEmpty.btnEmptyAction.setVisibility(View.GONE);
 
         setupFilterChips();
 
         binding.btnAddRoom.setOnClickListener(v -> openForm(0));
+        binding.btnFilter.setOnClickListener(v -> openFilterSheet());
     }
 
     @Override
@@ -127,20 +137,81 @@ public class AdminRoomFragment extends Fragment implements AdminRoomAdapter.OnRo
         });
     }
 
+    // ---------------- BỘ LỌC NÂNG CAO (loại phòng + tầng) ----------------
+
+    private void openFilterSheet() {
+        if (getChildFragmentManager().findFragmentByTag(RoomFilterBottomSheet.TAG) != null) return;
+        RoomFilterBottomSheet.newInstance(roomFilter)
+                .show(getChildFragmentManager(), RoomFilterBottomSheet.TAG);
+    }
+
+    /** Callback từ RoomFilterBottomSheet (sheet đã tự lưu SharedPreferences). */
+    @Override
+    public void onFilterApplied(RoomFilter filter) {
+        roomFilter = filter;
+        if (binding != null) loadData(); // đổi loại/tầng → phải tải lại cả số đếm lẫn danh sách
+    }
+
+    /** Vẽ lại hàng chip "đang áp dụng" + chấm badge trên icon phễu. */
+    private void renderActiveFilters() {
+        boolean active = roomFilter.isActive();
+        binding.cgActiveFilters.removeAllViews();
+        binding.svActiveFilters.setVisibility(active ? View.VISIBLE : View.GONE);
+        binding.cvFilterBadge.setVisibility(active ? View.VISIBLE : View.GONE);
+        if (!active) return;
+
+        for (Integer typeId : new TreeSet<>(roomFilter.getTypeIds())) {
+            String name = typeNames.get(typeId);
+            String label = name != null ? name : String.valueOf(typeId);
+            addActiveChip(label, () -> {
+                roomFilter.getTypeIds().remove(typeId);
+                onFilterChanged();
+            });
+        }
+        for (Integer floor : new TreeSet<>(roomFilter.getFloors())) {
+            String label = getString(R.string.admin_room_filter_floor_format, floor);
+            addActiveChip(label, () -> {
+                roomFilter.getFloors().remove(floor);
+                onFilterChanged();
+            });
+        }
+    }
+
+    private void addActiveChip(String label, Runnable onRemove) {
+        Chip chip = (Chip) getLayoutInflater()
+                .inflate(R.layout.chip_filter_option, binding.cgActiveFilters, false);
+        chip.setId(View.generateViewId());
+        chip.setCheckable(false);
+        chip.setText(label);
+        chip.setCloseIconVisible(true);
+        chip.setCloseIconContentDescription(getString(R.string.admin_room_filter_cd_remove, label));
+        chip.setOnCloseIconClickListener(v -> onRemove.run());
+        binding.cgActiveFilters.addView(chip);
+    }
+
+    /** Sau khi gỡ 1 điều kiện bằng nút x: lưu lại rồi tải lại số đếm + danh sách. */
+    private void onFilterChanged() {
+        roomFilter.save(requireContext());
+        loadData();
+    }
+
     // ---------------- TẢI DỮ LIỆU (chạy nền) ----------------
 
     /** Tải cả số đếm (cho chip) lẫn danh sách theo filter hiện tại. Gọi khi mở màn / sau khi đổi trạng thái / xóa. */
     private void loadData() {
         final int token = ++loadToken;
+        final RoomFilter filter = roomFilter.copy(); // chụp bản sao để luồng nền không đọc dữ liệu đang bị sửa
         if (adapter.getItemCount() == 0) binding.pbLoading.setVisibility(View.VISIBLE);
 
         executor.execute(() -> {
             Map<String, Integer> counts = null;
+            final Map<Integer, String> names = new HashMap<>();
             List<RoomWithType> rooms = new ArrayList<>();
             boolean failed = false;
             try {
-                counts = dao.countByStatus();
-                rooms.addAll(dao.getRoomsWithType(currentFilter));
+                counts = dao.countByStatus(filter);
+                rooms.addAll(dao.getRoomsWithType(currentFilter, filter));
+                for (RoomType t : dao.getTypeOptions()) names.put(t.getId(), t.getTypeName());
             } catch (Exception e) {
                 failed = true;
             }
@@ -154,20 +225,23 @@ public class AdminRoomFragment extends Fragment implements AdminRoomAdapter.OnRo
                     showMessage(R.string.admin_room_load_error);
                     return;
                 }
+                typeNames = names;
+                renderActiveFilters();
                 applyChipCounts(fCounts);
                 submitRooms(rooms);
             });
         });
     }
 
-    /** Chỉ tải lại danh sách theo filter mới (đổi chip không cần tải lại số đếm). */
+    /** Chỉ tải lại danh sách khi đổi chip trạng thái (bộ lọc loại/tầng giữ nguyên, số đếm không đổi). */
     private void loadRooms() {
         final int token = ++loadToken;
+        final RoomFilter filter = roomFilter.copy();
         executor.execute(() -> {
             final List<RoomWithType> rooms = new ArrayList<>();
             boolean failed = false;
             try {
-                rooms.addAll(dao.getRoomsWithType(currentFilter));
+                rooms.addAll(dao.getRoomsWithType(currentFilter, filter));
             } catch (Exception e) {
                 failed = true;
             }
@@ -186,6 +260,13 @@ public class AdminRoomFragment extends Fragment implements AdminRoomAdapter.OnRo
     private void submitRooms(List<RoomWithType> rooms) {
         adapter.submitList(rooms);
         boolean empty = rooms.isEmpty();
+        if (empty) {
+            boolean filtering = roomFilter.isActive();
+            binding.layoutEmpty.tvEmptyTitle.setText(filtering
+                    ? R.string.admin_room_filter_empty_title : R.string.admin_room_empty_title);
+            binding.layoutEmpty.tvEmptyDesc.setText(filtering
+                    ? R.string.admin_room_filter_empty_desc : R.string.admin_room_empty_desc);
+        }
         binding.layoutEmpty.getRoot().setVisibility(empty ? View.VISIBLE : View.GONE);
         binding.rvRooms.setVisibility(empty ? View.GONE : View.VISIBLE);
     }

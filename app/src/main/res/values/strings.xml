@@ -142,7 +142,7 @@
     <string name="room_detail_collapse">Thu gọn</string>
     <string name="room_detail_sold_out_note">Hết phòng trong khoảng ngày này</string>
     <string name="room_detail_review_count_format">(%1$d đánh giá)</string>
-
+    <string name="room_detail_total_reviews_format">%1$d đánh giá</string>
 
     <!-- ===================== THANH TOÁN ===================== -->
     <string name="payment_title">Thanh toán</string>
@@ -402,8 +402,39 @@
     <string name="admin_booking_checkout_message">Xác nhận khách đã trả phòng, đơn #%1$s hoàn tất?</string>
     <string name="admin_booking_checkout_success">Đã hoàn tất đơn</string>
     <string name="admin_booking_checkout_error">Không cập nhật được, vui lòng thử lại</string>
-    <!-- Placeholder tạm cho AdminBookingDetailActivity (chưa làm) -->
-    <string name="admin_booking_detail_todo">Chi tiết đơn — sẽ làm ở SPEC riêng</string>
+
+    <!-- AdminBookingDetailActivity -->
+    <string name="admin_booking_detail_created_at">Đặt lúc %1$s</string>
+    <string name="admin_booking_detail_not_found">Không tìm thấy đơn này</string>
+    <string name="admin_booking_detail_empty_value">—</string>
+
+    <string name="admin_booking_detail_section_customer">KHÁCH HÀNG</string>
+    <string name="admin_booking_detail_section_room">PHÒNG</string>
+    <string name="admin_booking_detail_section_stay">LƯU TRÚ</string>
+    <string name="admin_booking_detail_section_price">CHI TIẾT TIỀN</string>
+    <string name="admin_booking_detail_section_payment">THANH TOÁN</string>
+    <string name="admin_booking_detail_section_note">GHI CHÚ</string>
+
+    <string name="admin_booking_detail_label_name">Họ tên</string>
+    <string name="admin_booking_detail_label_phone">Số điện thoại</string>
+    <string name="admin_booking_detail_label_room_type">Loại phòng</string>
+    <string name="admin_booking_detail_label_room_number">Số phòng</string>
+    <string name="admin_booking_detail_label_guests">Số khách</string>
+    <string name="admin_booking_detail_label_checkin">Nhận phòng</string>
+    <string name="admin_booking_detail_label_checkout">Trả phòng</string>
+    <string name="admin_booking_detail_label_nights">Số đêm</string>
+    <string name="admin_booking_detail_label_method">Phương thức</string>
+    <string name="admin_booking_detail_label_pay_status">Trạng thái</string>
+    <string name="admin_booking_detail_label_paid_at">Thanh toán lúc</string>
+    <string name="admin_booking_detail_label_txn">Mã giao dịch</string>
+
+    <string name="admin_booking_detail_nights_value">%1$d đêm</string>
+    <string name="admin_booking_detail_guests_value">%1$d khách</string>
+    <string name="admin_booking_detail_weekday_date">%1$s, %2$s</string>
+    <string name="admin_booking_detail_discount_value">-%1$s</string>
+
+    <string name="admin_booking_detail_pay_refunded">Đã hoàn tiền</string>
+    <string name="admin_booking_detail_pay_none">Chưa có thông tin thanh toán</string>
 
     <!-- ===================== ADMIN — HỒ SƠ / ĐĂNG XUẤT ===================== -->
     <string name="admin_profile_title">Hồ sơ quản trị</string>
@@ -624,5 +655,56 @@
     <string name="google_web_client_id" translatable="false">443768524685-vj4ad4vlfs2q7kbff5i9n98p2es3e6h4.apps.googleusercontent.com</string>
     <string name="vnp_tmn_code" translatable="false">ZEO15KKU</string>
     <string name="vnp_hash_secret" translatable="false">THZTEJSHBXUCUFDJMIETAKVIOVGVPVKE</string>
+    <string name="payment_vnpay_failed_title">Thanh toán không thành công</string>
+    <string name="payment_failed_title">Thanh toán không thành công</string>
+    <string name="payment_failed_message">Có lỗi xảy ra, vui lòng thử lại (mã lỗi: %1$s)</string>
+
+    <!-- ===== PHỤ LỤC F: Bộ lọc nâng cao — Admin Phòng ===== -->
+    <string name="admin_room_filter_title">Bộ lọc phòng</string>
+    <string name="admin_room_filter_floor_format">Tầng %1$d</string>
+    <string name="admin_room_filter_cd_open">Mở bộ lọc phòng</string>
+    <string name="admin_room_filter_cd_remove">Gỡ bộ lọc %1$s</string>
+    <string name="admin_room_filter_empty_title">Không có phòng phù hợp</string>
+    <string name="admin_room_filter_empty_desc">Thử bỏ bớt bộ lọc để xem thêm phòng</string>
+    <string name="admin_room_filter_options_error">Không tải được các lựa chọn lọc</string>
+
+    <!-- ===== PHỤ LỤC F: Bộ lọc nâng cao — Admin Đơn đặt phòng ===== -->
+    <string name="admin_booking_filter_title">Bộ lọc đơn đặt phòng</string>
+    <string name="admin_booking_filter_label_keyword">KHÁCH HÀNG</string>
+    <string name="admin_booking_filter_hint_keyword">Tên hoặc SĐT khách</string>
+    <string name="admin_booking_filter_label_method">PHƯƠNG THỨC THANH TOÁN</string>
+    <string name="admin_booking_filter_label_date">NGÀY NHẬN PHÒNG</string>
+    <string name="admin_booking_filter_date_clear">Bỏ chọn ngày</string>
+    <string name="admin_booking_filter_date_range_format">%1$s → %2$s</string>
+    <string name="admin_booking_filter_date_from_format">Từ %1$s</string>
+    <string name="admin_booking_filter_date_to_format">Đến %1$s</string>
+    <string name="admin_booking_filter_chip_keyword">Khách: %1$s</string>
+    <string name="admin_booking_filter_cd_open">Mở bộ lọc đơn đặt phòng</string>
+    <string name="admin_booking_filter_empty_title">Không có đơn phù hợp</string>
+    <string name="admin_booking_filter_empty_desc">Thử bỏ bớt bộ lọc để xem thêm đơn</string>
+
+    <!-- Admin · Khách hàng — bộ lọc nâng cao (Phụ lục F) -->
+    <string name="admin_customer_filter_title">Bộ lọc khách hàng</string>
+    <string name="admin_customer_filter_label_history">LỊCH SỬ ĐẶT PHÒNG</string>
+    <string name="admin_customer_filter_history_has">Đã từng đặt phòng</string>
+    <string name="admin_customer_filter_history_none">Chưa từng đặt phòng</string>
+    <string name="admin_customer_filter_label_vip">HẠNG KHÁCH</string>
+    <string name="admin_customer_filter_vip_yes">Khách VIP</string>
+    <string name="admin_customer_filter_vip_no">Khách thường</string>
+    <string name="admin_customer_filter_label_date">NGÀY ĐĂNG KÝ</string>
+    <string name="admin_customer_filter_cd_open">Mở bộ lọc khách hàng</string>
+    <string name="admin_customer_filter_empty_title">Không có khách phù hợp</string>
+    <string name="admin_customer_filter_empty_desc">Thử bỏ bớt bộ lọc để xem thêm khách</string>
+    <string name="admin_customer_filter_empty_format">%1$s\n%2$s</string>
+    <string name="admin_customer_contact_format">%1$s · %2$s</string>
+    <string name="admin_customer_contact_empty">Chưa có thông tin liên hệ</string>
+
+    <string name="room_detail_min_one_night">Vui lòng chọn ít nhất 1 đêm (ngày trả phòng phải sau ngày nhận phòng).</string>
+    <string name="payment_date_range_format">📅 %1$s → %2$s</string>
+    <string name="payment_night_guest_format">%1$d đêm · %2$d khách</string>
+    <string name="payment_price_line_format">%1$s × %2$s</string>
+    <string name="payment_discount_value_format">-%1$s</string>
+    <string name="payment_btn_submit_amount_format">%1$s · %2$s</string>
+    <string name="payment_promo_applied_format">Đã áp dụng mã %1$s (-%2$d%%)</string>
 
 </resources>

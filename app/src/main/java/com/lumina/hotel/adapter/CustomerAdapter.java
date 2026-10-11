@@ -69,10 +69,25 @@ public class CustomerAdapter extends ListAdapter<CustomerStat, CustomerAdapter.C
         void bind(CustomerStat stat, OnCustomerClickListener listener) {
             binding.tvAvatar.setText(stat.getUser().getInitial());
             binding.tvCustomerName.setText(stat.getUser().getFullName());
-            binding.tvCustomerContact.setText(
-                    stat.getUser().getPhone() + " · " + stat.getUser().getEmail());
+            android.content.Context context = binding.getRoot().getContext();
+
+            String phone = cleanContact(stat.getUser().getPhone());
+            String email = cleanContact(stat.getUser().getEmail());
+            String contact;
+            if (phone != null && email != null) {
+                contact = context.getString(
+                        com.lumina.hotel.R.string.admin_customer_contact_format, phone, email);
+            } else if (phone != null) {
+                contact = phone;
+            } else if (email != null) {
+                contact = email;
+            } else {
+                contact = context.getString(com.lumina.hotel.R.string.admin_customer_contact_empty);
+            }
+            binding.tvCustomerContact.setText(contact);
+
             binding.tvBookingCount.setText(
-                    binding.getRoot().getContext().getString(
+                    context.getString(
                             com.lumina.hotel.R.string.customer_booking_count, stat.getTotalBookings()));
             binding.tvTotalSpent.setText(PriceUtils.formatVnd(stat.getTotalSpent()));
 
@@ -83,6 +98,13 @@ public class CustomerAdapter extends ListAdapter<CustomerStat, CustomerAdapter.C
             binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) listener.onCustomerClick(stat);
             });
+        }
+        /** Trả về null nếu rỗng, chỉ có khoảng trắng hoặc là chữ "null" lưu nhầm trong dữ liệu. */
+        private static String cleanContact(String value) {
+            if (value == null) return null;
+            String trimmed = value.trim();
+            if (trimmed.isEmpty() || "null".equalsIgnoreCase(trimmed)) return null;
+            return trimmed;
         }
     }
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="20dp">
+
+    <!-- Tay cầm kéo -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_status_gray" />
+
+    <TextView
+        android:id="@+id/tvFilterTitle"
+        style="@style/TextAppearance.Lumina.H2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_customer_filter_title" />
+
+    <!-- Nhóm 1: LỊCH SỬ ĐẶT PHÒNG (chọn một; bấm lại chip đang chọn = bỏ lọc nhóm này) -->
+    <TextView
+        android:id="@+id/tvLabelFilterHistory"
+        style="@style/TextAppearance.Lumina.Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/admin_customer_filter_label_history" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgFilterHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="8dp"
+        app:selectionRequired="false"
+        app:singleSelection="true" />
+
+    <!-- Nhóm 2: HẠNG KHÁCH (chọn một) -->
+    <TextView
+        android:id="@+id/tvLabelFilterVip"
+        style="@style/TextAppearance.Lumina.Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/admin_customer_filter_label_vip" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgFilterVip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="8dp"
+        app:selectionRequired="false"
+        app:singleSelection="true" />
+
+    <!-- Nhóm 3: NGÀY ĐĂNG KÝ (khoảng ngày) -->
+    <TextView
+        android:id="@+id/tvLabelFilterDate"
+        style="@style/TextAppearance.Lumina.Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/admin_customer_filter_label_date" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFilterDate"
+            style="@style/Widget.Lumina.Button.Outline"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/dash_pick_range"
+            app:icon="@drawable/ic_calendar"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="18dp" />
+
+        <!-- Chỉ hiện khi đã chọn khoảng ngày (Java bật/tắt) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFilterDateClear"
+            style="@style/Widget.Lumina.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/admin_booking_filter_date_clear"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <!-- Hàng nút: Đặt lại (trái) + Áp dụng (phải) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFilterReset"
+            style="@style/Widget.Lumina.Button.Outline"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:text="@string/action_reset_filter" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFilterApply"
+            style="@style/Widget.Lumina.Button.Primary"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/action_apply" />
+    </LinearLayout>
+
+</LinearLayout>

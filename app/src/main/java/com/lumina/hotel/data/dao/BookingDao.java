@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.lumina.hotel.data.DbContract.BookingStatus;
 import com.lumina.hotel.data.DbContract.BookingTable;
@@ -12,9 +13,8 @@ import com.lumina.hotel.data.DbContract.RoomStatus;
 import com.lumina.hotel.data.DbContract.RoomTable;
 import com.lumina.hotel.data.DatabaseHelper;
 import com.lumina.hotel.model.Booking;
+import com.lumina.hotel.model.BookingFilter;
 import com.lumina.hotel.model.BookingWithDetail;
-import com.lumina.hotel.model.RevenuePoint;
-import com.lumina.hotel.model.TypeShare;
 import com.lumina.hotel.util.DateUtils;
 import com.lumina.hotel.util.PriceUtils;
 
@@ -33,7 +33,7 @@ public class BookingDao {
     private final DatabaseHelper helper;
 
     public BookingDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     /* ================================================================
@@ -171,19 +171,20 @@ public class BookingDao {
                 new String[]{ String.valueOf(userId) });
     }
 
-    /** Toàn bộ đơn — màn Quản lý đơn đặt của admin. */
+    /** Toàn bộ đơn — màn Quản lý đơn đặt của admin (không có bộ lọc nâng cao). */
     public List<BookingWithDetail> getAllWithDetail(String status) {
-        if (status == null || status.isEmpty() || "all".equals(status)) {
-            return queryDetail(SELECT_WITH_DETAIL + "ORDER BY b.created_at DESC", null);
-        }
-        return queryDetail(SELECT_WITH_DETAIL + "WHERE b.booking_status = ? " +
-                "ORDER BY b.created_at DESC", new String[]{ status });
+        return getAllWithDetail(status, null);
     }
 
-    /** 4 đơn gần nhất — khối "Đơn mới nhất" trên Dashboard. */
-    public List<BookingWithDetail> getLatest(int limit) {
-        return queryDetail(SELECT_WITH_DETAIL + "ORDER BY b.created_at DESC LIMIT ?",
-                new String[]{ String.valueOf(limit) });
+    /**
+     * Phụ lục F: lọc theo trạng thái (chip) + bộ lọc nâng cao (phương thức thanh toán,
+     * khoảng ngày nhận phòng, tên/SĐT khách). Các điều kiện kết hợp AND.
+     */
+    public List<BookingWithDetail> getAllWithDetail(String status, BookingFilter filter) {
+        List<String> args = new ArrayList<>();
+        String where = buildWhere(status, filter, args);
+        return queryDetail(SELECT_WITH_DETAIL + where + "ORDER BY b.created_at DESC",
+                args.toArray(new String[0]));
     }
 
     public BookingWithDetail getDetailById(int bookingId) {
@@ -205,15 +206,25 @@ public class BookingDao {
         }
     }
 
-    /** Đếm đơn theo từng trạng thái — dùng cho các chip lọc có số. */
+    /** Đếm đơn theo từng trạng thái — dùng cho các chip lọc có số (không có bộ lọc nâng cao). */
     public Map<String, Integer> countByStatus() {
+        return countByStatus(null);
+    }
+
+    /** Đếm theo trạng thái, nhưng chỉ tính các đơn thoả bộ lọc nâng cao (khớp với danh sách). */
+    public Map<String, Integer> countByStatus(BookingFilter filter) {
         Map<String, Integer> map = new LinkedHashMap<>();
+        List<String> args = new ArrayList<>();
+        String where = buildWhere(null, filter, args);
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = null;
         int total = 0;
         try {
-            c = db.rawQuery("SELECT booking_status, COUNT(*) AS cnt FROM bookings " +
-                    "GROUP BY booking_status", null);
+            c = db.rawQuery("SELECT b.booking_status AS booking_status, COUNT(*) AS cnt " +
+                    "FROM bookings b " +
+                    "JOIN room_types t ON t.id = b.room_type_id " +
+                    "JOIN users u      ON u.id = b.user_id " +
+                    where + "GROUP BY b.booking_status", args.toArray(new String[0]));
             while (c.moveToNext()) {
                 int cnt = c.getInt(c.getColumnIndexOrThrow("cnt"));
                 map.put(c.getString(c.getColumnIndexOrThrow("booking_status")), cnt);
@@ -238,6 +249,17 @@ public class BookingDao {
                 new String[]{ String.valueOf(bookingId) });
     }
 
+    /** Admin xác nhận đơn: chỉ chuyển được khi đơn còn "pending".
+     *  @return số dòng được cập nhật (0 = đơn đã đổi trạng thái từ trước). */
+    public int confirmBooking(int bookingId) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put(BookingTable.BOOKING_STATUS, BookingStatus.CONFIRMED);
+        return db.update(BookingTable.TABLE_NAME, v,
+                "id = ? AND booking_status = ?",
+                new String[]{ String.valueOf(bookingId), BookingStatus.PENDING });
+    }
+
     /** Khách tự huỷ đơn. Chỉ cho phép khi đơn còn ở trạng thái chờ/đã xác nhận. */
     public int cancelByCustomer(int bookingId) {
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -248,19 +270,20 @@ public class BookingDao {
                 new String[]{ String.valueOf(bookingId) });
     }
 
-    /** Admin từ chối đơn, có ghi lý do vào cột note. */
+    /** Admin từ chối đơn, có ghi lý do vào cột note. Chỉ áp dụng khi đơn còn "pending". */
     public int rejectBooking(int bookingId, String reason) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues v = new ContentValues();
         v.put(BookingTable.BOOKING_STATUS, BookingStatus.CANCELLED);
         v.put(BookingTable.NOTE, reason);
-        return db.update(BookingTable.TABLE_NAME, v, "id = ?",
-                new String[]{ String.valueOf(bookingId) });
+        return db.update(BookingTable.TABLE_NAME, v,
+                "id = ? AND booking_status = ?",
+                new String[]{ String.valueOf(bookingId), BookingStatus.PENDING });
     }
 
     /**
      * Check-in: gán phòng vật lý cho đơn và đổi trạng thái phòng sang "đang ở".
-     * Hai thao tác này phải cùng thành công hoặc cùng thất bại.
+     * Chỉ áp dụng khi đơn còn "confirmed". Hai thao tác phải cùng thành công hoặc cùng thất bại.
      */
     public boolean checkIn(int bookingId, int roomId) {
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -269,8 +292,9 @@ public class BookingDao {
             ContentValues b = new ContentValues();
             b.put(BookingTable.ROOM_ID, roomId);
             b.put(BookingTable.BOOKING_STATUS, BookingStatus.CHECKED_IN);
-            int r1 = db.update(BookingTable.TABLE_NAME, b, "id = ?",
-                    new String[]{ String.valueOf(bookingId) });
+            int r1 = db.update(BookingTable.TABLE_NAME, b,
+                    "id = ? AND booking_status = ?",
+                    new String[]{ String.valueOf(bookingId), BookingStatus.CONFIRMED });
 
             ContentValues rm = new ContentValues();
             rm.put("room_status", RoomStatus.OCCUPIED);
@@ -328,123 +352,7 @@ public class BookingDao {
     }
 
     /* ================================================================
-     * 5. THỐNG KÊ CHO DASHBOARD
-     * ================================================================ */
-
-    /** Chỉ tính đơn không bị huỷ. */
-    private static final String REVENUE_FILTER =
-            "booking_status IN ('confirmed','checked_in','completed')";
-
-    public long revenueBetween(long from, long to) {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = null;
-        try {
-            c = db.rawQuery("SELECT IFNULL(SUM(total_amount), 0) FROM bookings " +
-                            "WHERE " + REVENUE_FILTER + " AND created_at BETWEEN ? AND ?",
-                    new String[]{ String.valueOf(from), String.valueOf(to) });
-            return c.moveToFirst() ? c.getLong(0) : 0;
-        } finally {
-            if (c != null) c.close();
-        }
-    }
-
-    public int countBookingsBetween(long from, long to) {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = null;
-        try {
-            c = db.rawQuery("SELECT COUNT(*) FROM bookings WHERE created_at BETWEEN ? AND ?",
-                    new String[]{ String.valueOf(from), String.valueOf(to) });
-            return c.moveToFirst() ? c.getInt(0) : 0;
-        } finally {
-            if (c != null) c.close();
-        }
-    }
-
-    /**
-     * Doanh thu gom theo ngày — dữ liệu cho biểu đồ đường.
-     *
-     * SQLite không hiểu epoch millis, phải chia 1000 và khai báo 'unixepoch',
-     * thêm 'localtime' để gom theo ngày ở múi giờ Việt Nam thay vì UTC.
-     */
-    public List<RevenuePoint> revenueByDay(long from, long to) {
-        List<RevenuePoint> list = new ArrayList<>();
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = null;
-        try {
-            c = db.rawQuery(
-                    "SELECT strftime('%d/%m', created_at/1000, 'unixepoch', 'localtime') AS label, " +
-                            "       SUM(total_amount) AS revenue, MIN(created_at) AS first_at " +
-                            "FROM bookings " +
-                            "WHERE " + REVENUE_FILTER + " AND created_at BETWEEN ? AND ? " +
-                            "GROUP BY label ORDER BY first_at ASC",
-                    new String[]{ String.valueOf(from), String.valueOf(to) });
-            while (c.moveToNext()) {
-                list.add(new RevenuePoint(
-                        c.getString(c.getColumnIndexOrThrow("label")),
-                        c.getLong(c.getColumnIndexOrThrow("revenue"))));
-            }
-        } finally {
-            if (c != null) c.close();
-        }
-        return list;
-    }
-
-    /** Tỷ trọng số đơn theo loại phòng — 5 thanh ngang trên Dashboard. */
-    public List<TypeShare> shareByRoomType(long from, long to) {
-        List<TypeShare> list = new ArrayList<>();
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = null;
-        try {
-            c = db.rawQuery(
-                    "SELECT t.type_name AS type_name, COUNT(b.id) AS cnt " +
-                            "FROM bookings b JOIN room_types t ON t.id = b.room_type_id " +
-                            "WHERE b." + REVENUE_FILTER + " AND b.created_at BETWEEN ? AND ? " +
-                            "GROUP BY t.id ORDER BY cnt DESC",
-                    new String[]{ String.valueOf(from), String.valueOf(to) });
-
-            int total = 0;
-            List<String> names = new ArrayList<>();
-            List<Integer> counts = new ArrayList<>();
-            while (c.moveToNext()) {
-                int cnt = c.getInt(c.getColumnIndexOrThrow("cnt"));
-                names.add(c.getString(c.getColumnIndexOrThrow("type_name")));
-                counts.add(cnt);
-                total += cnt;
-            }
-            for (int i = 0; i < names.size(); i++) {
-                int percent = total == 0 ? 0 : Math.round(counts.get(i) * 100f / total);
-                list.add(new TypeShare(names.get(i), counts.get(i), percent));
-            }
-        } finally {
-            if (c != null) c.close();
-        }
-        return list;
-    }
-
-    /**
-     * Tỷ lệ lấp phòng: số phòng đang có khách hoặc đã được giữ / tổng số phòng.
-     * @return số phần trăm đã làm tròn (0..100)
-     */
-    public int occupancyRate() {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = null;
-        try {
-            c = db.rawQuery(
-                    "SELECT (SELECT COUNT(*) FROM rooms WHERE room_status IN ('booked','occupied')) " +
-                            "AS busy, (SELECT COUNT(*) FROM rooms) AS total", null);
-            if (c.moveToFirst()) {
-                int busy = c.getInt(c.getColumnIndexOrThrow("busy"));
-                int total = c.getInt(c.getColumnIndexOrThrow("total"));
-                return total == 0 ? 0 : Math.round(busy * 100f / total);
-            }
-            return 0;
-        } finally {
-            if (c != null) c.close();
-        }
-    }
-
-    /* ================================================================
-     * 6. HÀM DÙNG CHUNG TRONG LỚP
+     * 5. HÀM DÙNG CHUNG TRONG LỚP
      * ================================================================ */
 
     /** Mã đơn "LH"+ngày có thể trùng khi nhiều đơn cùng ngày → thêm hậu tố 01, 02... */
@@ -466,6 +374,59 @@ public class BookingDao {
         } finally {
             if (c != null) c.close();
         }
+    }
+
+    /**
+     * Dựng mệnh đề WHERE động (luôn dùng dấu ?, không nối giá trị vào chuỗi).
+     * Alias bắt buộc: b = bookings, u = users. Trả "" nếu không có điều kiện nào,
+     * ngược lại trả chuỗi "WHERE ... " (có khoảng trắng cuối).
+     */
+    private String buildWhere(String status, BookingFilter filter, List<String> args) {
+        List<String> conds = new ArrayList<>();
+
+        if (status != null && !status.isEmpty() && !"all".equals(status)) {
+            conds.add("b.booking_status = ?");
+            args.add(status);
+        }
+
+        if (filter != null) {
+            if (!filter.getMethods().isEmpty()) {
+                conds.add("EXISTS (SELECT 1 FROM payments p WHERE p.booking_id = b.id " +
+                        "AND p.method IN (" + placeholders(filter.getMethods().size()) + "))");
+                args.addAll(filter.getMethods());
+            }
+            if (filter.getDateFrom() > 0) {
+                conds.add("b.check_in_date >= ?");
+                args.add(String.valueOf(filter.getDateFrom()));
+            }
+            if (filter.getDateTo() > 0) {
+                conds.add("b.check_in_date <= ?");
+                args.add(String.valueOf(filter.getDateTo()));
+            }
+            String kw = filter.getKeyword();
+            if (!kw.isEmpty()) {
+                conds.add("(u.full_name LIKE ? ESCAPE '\\' " +
+                        "OR u.phone LIKE ? ESCAPE '\\' " +
+                        "OR REPLACE(u.phone, ' ', '') LIKE ? ESCAPE '\\')");
+                args.add("%" + escapeLike(kw) + "%");
+                args.add("%" + escapeLike(kw) + "%");
+                args.add("%" + escapeLike(kw.replace(" ", "")) + "%");
+            }
+        }
+
+        if (conds.isEmpty()) return "";
+        return "WHERE " + TextUtils.join(" AND ", conds) + " ";
+    }
+
+    private String placeholders(int n) {
+        String[] marks = new String[n];
+        for (int i = 0; i < n; i++) marks[i] = "?";
+        return TextUtils.join(",", marks);
+    }
+
+    /** Thoát ký tự đặc biệt của LIKE (\ % _) để người dùng gõ gì khớp đúng nấy. */
+    private String escapeLike(String s) {
+        return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }
 
     private List<BookingWithDetail> queryDetail(String sql, String[] args) {

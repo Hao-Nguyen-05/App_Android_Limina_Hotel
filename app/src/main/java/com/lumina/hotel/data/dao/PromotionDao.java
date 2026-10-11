@@ -17,7 +17,7 @@ public class PromotionDao {
     private final DatabaseHelper helper;
 
     public PromotionDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     /**

@@ -22,7 +22,7 @@ public class AmenityDao {
     private final DatabaseHelper helper;
 
     public AmenityDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     public List<Amenity> getAll() {

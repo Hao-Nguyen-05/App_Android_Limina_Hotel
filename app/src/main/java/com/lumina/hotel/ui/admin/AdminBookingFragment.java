@@ -1,5 +1,6 @@
 package com.lumina.hotel.ui.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.lumina.hotel.R;
@@ -26,8 +28,13 @@ import com.lumina.hotel.data.dao.BookingDao;
 import com.lumina.hotel.data.dao.RoomDao;
 import com.lumina.hotel.databinding.FragmentAdminBookingBinding;
 import com.lumina.hotel.model.BookingWithDetail;
+import com.lumina.hotel.model.BookingFilter;
+import com.lumina.hotel.model.IntentKeys;
 import com.lumina.hotel.model.Room;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +42,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /** SPEC 11 — Tab "Đơn đặt phòng" của Admin: danh sách + chip lọc + chuỗi chuyển trạng thái. */
-public class AdminBookingFragment extends Fragment implements AdminBookingAdapter.OnBookingActionListener {
+public class AdminBookingFragment extends Fragment implements AdminBookingAdapter.OnBookingActionListener, BookingFilterBottomSheet.OnFilterAppliedListener {
 
     private FragmentAdminBookingBinding binding;
     private BookingDao bookingDao;
@@ -47,6 +54,7 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
     private int headerPaddingTop;
     private int loadToken = 0;
     private String currentFilter = "all"; // "all" | pending | confirmed | checked_in | completed | cancelled
+    private BookingFilter bookingFilter = new BookingFilter(); // bộ lọc nâng cao (phương thức + ngày nhận phòng + khách), nạp lại trong onViewCreated
 
     @Nullable
     @Override
@@ -66,18 +74,21 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
         setupHeaderInset();
 
         adapter = new AdminBookingAdapter();
-        // Bấm card (không trúng nút hành động) -> xem chi tiết. AdminBookingDetailActivity
-        // chưa có SPEC anatomy nên tạm hiện thông báo, sẽ nối khi làm SPEC riêng.
-        adapter.setOnItemClickListener((item, position) -> showMessage(R.string.admin_booking_detail_todo));
+        // Bấm card (không trúng nút hành động) -> xem chi tiết đơn (chỉ xem).
+        adapter.setOnItemClickListener((item, position) -> {
+            Intent intent = new Intent(requireContext(), AdminBookingDetailActivity.class);
+            intent.putExtra(IntentKeys.EXTRA_BOOKING_ID, item.getBooking().getId());
+            startActivity(intent);
+        });
         adapter.setOnBookingActionListener(this);
         binding.rvBookings.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvBookings.setAdapter(adapter);
 
-        binding.layoutEmpty.tvEmptyTitle.setText(R.string.admin_booking_empty_title);
-        binding.layoutEmpty.tvEmptyDesc.setText(R.string.admin_booking_empty_desc);
         binding.layoutEmpty.btnEmptyAction.setVisibility(View.GONE);
 
+        bookingFilter = BookingFilter.load(requireContext());
         setupFilterChips();
+        binding.btnFilter.setOnClickListener(v -> openFilterSheet());
     }
 
     @Override
@@ -125,11 +136,96 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
         });
     }
 
+    // ---------------- BỘ LỌC NÂNG CAO (phương thức thanh toán + ngày nhận phòng + khách) ----------------
+
+    private void openFilterSheet() {
+        if (getChildFragmentManager().findFragmentByTag(BookingFilterBottomSheet.TAG) != null) return;
+        BookingFilterBottomSheet.newInstance(bookingFilter)
+                .show(getChildFragmentManager(), BookingFilterBottomSheet.TAG);
+    }
+
+    /** Callback từ BookingFilterBottomSheet (sheet đã tự lưu SharedPreferences). */
+    @Override
+    public void onFilterApplied(BookingFilter filter) {
+        bookingFilter = filter;
+        if (binding != null) loadData(); // đổi bộ lọc nâng cao → phải tải lại cả số đếm lẫn danh sách
+    }
+
+    /** Vẽ lại hàng chip "đang áp dụng" + chấm badge trên icon phễu. */
+    private void renderActiveFilters() {
+        boolean active = bookingFilter.isActive();
+        binding.cgActiveFilters.removeAllViews();
+        binding.svActiveFilters.setVisibility(active ? View.VISIBLE : View.GONE);
+        binding.cvFilterBadge.setVisibility(active ? View.VISIBLE : View.GONE);
+        if (!active) return;
+
+        // Chip phương thức thanh toán — theo đúng thứ tự cash, vnpay, momo, card
+        for (String method : BookingFilter.ALL_METHODS) {
+            if (!bookingFilter.getMethods().contains(method)) continue;
+            String label = getString(BookingFilterBottomSheet.methodLabelRes(method));
+            addActiveChip(label, () -> {
+                bookingFilter.getMethods().remove(method);
+                onFilterChanged();
+            });
+        }
+
+        // Chip khoảng ngày nhận phòng (cả khoảng / chỉ Từ / chỉ Đến)
+        if (bookingFilter.hasDateRange()) {
+            long from = bookingFilter.getDateFrom();
+            long to = bookingFilter.getDateTo();
+            String label;
+            if (from > 0 && to > 0) {
+                label = getString(R.string.admin_booking_filter_date_range_format,
+                        formatDate(from), formatDate(to));
+            } else if (from > 0) {
+                label = getString(R.string.admin_booking_filter_date_from_format, formatDate(from));
+            } else {
+                label = getString(R.string.admin_booking_filter_date_to_format, formatDate(to));
+            }
+            addActiveChip(label, () -> {
+                bookingFilter.clearDateRange();
+                onFilterChanged();
+            });
+        }
+
+        // Chip từ khoá khách
+        String keyword = bookingFilter.getKeyword();
+        if (keyword != null && !keyword.isEmpty()) {
+            addActiveChip(getString(R.string.admin_booking_filter_chip_keyword, keyword), () -> {
+                bookingFilter.setKeyword("");
+                onFilterChanged();
+            });
+        }
+    }
+
+    private String formatDate(long millis) {
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(millis));
+    }
+
+    private void addActiveChip(String label, Runnable onRemove) {
+        Chip chip = (Chip) getLayoutInflater()
+                .inflate(R.layout.chip_filter_option, binding.cgActiveFilters, false);
+        chip.setId(View.generateViewId());
+        chip.setCheckable(false);
+        chip.setText(label);
+        chip.setCloseIconVisible(true);
+        chip.setCloseIconContentDescription(getString(R.string.admin_room_filter_cd_remove, label));
+        chip.setOnCloseIconClickListener(v -> onRemove.run());
+        binding.cgActiveFilters.addView(chip);
+    }
+
+    /** Sau khi gỡ 1 điều kiện bằng nút x: lưu lại rồi tải lại số đếm + danh sách. */
+    private void onFilterChanged() {
+        bookingFilter.save(requireContext());
+        loadData();
+    }
+
     // ---------------- TẢI DỮ LIỆU (chạy nền) ----------------
 
-    /** Tải cả số đếm (cho chip) lẫn danh sách theo filter hiện tại. Gọi khi mở màn / sau khi đổi trạng thái. */
+    /** Tải cả số đếm (cho chip) lẫn danh sách theo filter hiện tại. Gọi khi mở màn / sau khi đổi trạng thái / đổi bộ lọc nâng cao. */
     private void loadData() {
         final int token = ++loadToken;
+        final BookingFilter filter = bookingFilter.copy(); // chụp bản sao để luồng nền không đọc dữ liệu đang bị sửa
         if (adapter.getItemCount() == 0) binding.pbLoading.setVisibility(View.VISIBLE);
 
         executor.execute(() -> {
@@ -137,8 +233,8 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
             List<BookingWithDetail> bookings = new ArrayList<>();
             boolean failed = false;
             try {
-                counts = bookingDao.countByStatus();
-                bookings.addAll(bookingDao.getAllWithDetail(currentFilter));
+                counts = bookingDao.countByStatus(filter);
+                bookings.addAll(bookingDao.getAllWithDetail(currentFilter, filter));
             } catch (Exception e) {
                 failed = true;
             }
@@ -152,20 +248,22 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
                     showMessage(R.string.admin_booking_load_error);
                     return;
                 }
+                renderActiveFilters();
                 applyChipCounts(fCounts);
                 submitBookings(bookings);
             });
         });
     }
 
-    /** Chỉ tải lại danh sách theo filter mới (đổi chip không cần tải lại số đếm). */
+    /** Chỉ tải lại danh sách khi đổi chip trạng thái (bộ lọc nâng cao giữ nguyên, số đếm không đổi). */
     private void loadBookings() {
         final int token = ++loadToken;
+        final BookingFilter filter = bookingFilter.copy();
         executor.execute(() -> {
             final List<BookingWithDetail> bookings = new ArrayList<>();
             boolean failed = false;
             try {
-                bookings.addAll(bookingDao.getAllWithDetail(currentFilter));
+                bookings.addAll(bookingDao.getAllWithDetail(currentFilter, filter));
             } catch (Exception e) {
                 failed = true;
             }
@@ -184,6 +282,13 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
     private void submitBookings(List<BookingWithDetail> bookings) {
         adapter.submitList(bookings);
         boolean empty = bookings.isEmpty();
+        if (empty) {
+            boolean filtering = bookingFilter.isActive();
+            binding.layoutEmpty.tvEmptyTitle.setText(filtering
+                    ? R.string.admin_booking_filter_empty_title : R.string.admin_booking_empty_title);
+            binding.layoutEmpty.tvEmptyDesc.setText(filtering
+                    ? R.string.admin_booking_filter_empty_desc : R.string.admin_booking_empty_desc);
+        }
         binding.layoutEmpty.getRoot().setVisibility(empty ? View.VISIBLE : View.GONE);
         binding.rvBookings.setVisibility(empty ? View.GONE : View.VISIBLE);
     }
@@ -226,7 +331,7 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
         executor.execute(() -> {
             boolean ok;
             try {
-                ok = bookingDao.updateStatus(bookingId, DbContract.BookingStatus.CONFIRMED) > 0;
+                ok = bookingDao.confirmBooking(bookingId) > 0;
             } catch (Exception e) {
                 ok = false;
             }
@@ -234,7 +339,7 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
             mainHandler.post(() -> {
                 if (binding == null) return;
                 showMessage(fOk ? R.string.admin_booking_confirm_success : R.string.admin_booking_confirm_error);
-                if (fOk) loadData(); // đổi trạng thái làm thay đổi số đếm chip
+                loadData(); // luôn tải lại: thất bại thường do đơn đã đổi trạng thái, cần cập nhật dòng cũ
             });
         });
     }
@@ -273,7 +378,7 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
             mainHandler.post(() -> {
                 if (binding == null) return;
                 showMessage(fOk ? R.string.admin_booking_reject_success : R.string.admin_booking_reject_error);
-                if (fOk) loadData();
+                loadData();
             });
         });
     }
@@ -346,7 +451,7 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
             mainHandler.post(() -> {
                 if (binding == null) return;
                 showMessage(fOk ? R.string.admin_booking_checkin_success : R.string.admin_booking_checkin_error);
-                if (fOk) loadData();
+                loadData();
             });
         });
     }
@@ -373,7 +478,7 @@ public class AdminBookingFragment extends Fragment implements AdminBookingAdapte
             mainHandler.post(() -> {
                 if (binding == null) return;
                 showMessage(fOk ? R.string.admin_booking_checkout_success : R.string.admin_booking_checkout_error);
-                if (fOk) loadData();
+                loadData();
             });
         });
     }

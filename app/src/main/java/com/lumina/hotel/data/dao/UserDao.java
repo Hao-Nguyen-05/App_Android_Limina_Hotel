@@ -8,10 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import com.lumina.hotel.data.DbContract;
 import com.lumina.hotel.data.DbContract.UserTable;
 import com.lumina.hotel.data.DatabaseHelper;
+
+import com.lumina.hotel.model.CustomerFilter;
 import com.lumina.hotel.model.CustomerStat;
 import com.lumina.hotel.model.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -23,7 +26,7 @@ public class UserDao {
     private final DatabaseHelper helper;
 
     public UserDao(Context context) {
-        this.helper = new DatabaseHelper(context);
+        this.helper = DatabaseHelper.getInstance(context);
     }
 
     // ---------------- ĐỌC ----------------
@@ -94,13 +97,20 @@ public class UserDao {
         }
     }
 
+    /** Giữ lại cho nơi gọi cũ: không dùng bộ lọc nâng cao. */
+    public List<CustomerStat> getCustomerStats(String keyword) {
+        return getCustomerStats(keyword, null);
+    }
+
     /**
      * Danh sách khách hàng kèm thống kê, dùng cho màn Quản lý khách hàng.
      * Chỉ tính doanh thu từ các đơn không bị huỷ.
+     * Các điều kiện kết hợp AND: từ khoá, lịch sử đặt phòng, hạng VIP, khoảng ngày đăng ký.
      *
-     * @param keyword tìm theo tên hoặc số điện thoại; để null/rỗng nếu lấy tất cả.
+     * @param keyword tìm theo tên, số điện thoại hoặc email; null/rỗng = không lọc.
+     * @param filter  bộ lọc nâng cao; null hoặc rỗng = không lọc.
      */
-    public List<CustomerStat> getCustomerStats(String keyword) {
+    public List<CustomerStat> getCustomerStats(String keyword, CustomerFilter filter) {
         List<CustomerStat> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -115,10 +125,39 @@ public class UserDao {
         args.add(DbContract.Role.CUSTOMER);
 
         if (keyword != null && !keyword.trim().isEmpty()) {
-            sql.append(" AND (u.full_name LIKE ? OR u.phone LIKE ? OR u.email LIKE ?)");
-            String like = "%" + keyword.trim() + "%";
+            sql.append(" AND (u.full_name LIKE ? ESCAPE '\\'")
+                    .append(" OR u.phone LIKE ? ESCAPE '\\'")
+                    .append(" OR u.email LIKE ? ESCAPE '\\')");
+            String like = "%" + escapeLike(keyword.trim()) + "%";
             args.add(like); args.add(like); args.add(like);
         }
+
+        if (filter != null) {
+            // Lịch sử đặt phòng: EXISTS để không làm đổi COUNT/SUM của phép JOIN phía trên
+            if (CustomerFilter.HISTORY_HAS.equals(filter.getHistory())) {
+                sql.append(" AND EXISTS (SELECT 1 FROM bookings x WHERE x.user_id = u.id)");
+            } else if (CustomerFilter.HISTORY_NONE.equals(filter.getHistory())) {
+                sql.append(" AND NOT EXISTS (SELECT 1 FROM bookings x WHERE x.user_id = u.id)");
+            }
+
+            // Hạng khách
+            if (CustomerFilter.VIP_YES.equals(filter.getVip())) {
+                sql.append(" AND u.is_vip = 1");
+            } else if (CustomerFilter.VIP_NO.equals(filter.getVip())) {
+                sql.append(" AND u.is_vip = 0");
+            }
+
+            // Ngày đăng ký: [từ 00:00 ngày đầu, trước 00:00 ngày sau ngày cuối)
+            if (filter.getDateFrom() > 0) {
+                sql.append(" AND u.created_at >= ?");
+                args.add(String.valueOf(filter.getDateFrom()));
+            }
+            if (filter.getDateTo() > 0) {
+                sql.append(" AND u.created_at < ?");
+                args.add(String.valueOf(nextDayMidnight(filter.getDateTo())));
+            }
+        }
+
         sql.append(" GROUP BY u.id ORDER BY total_spent DESC");
 
         Cursor c = null;
@@ -135,6 +174,23 @@ public class UserDao {
             if (c != null) c.close();
         }
         return list;
+    }
+
+    /** Escape ký tự đặc biệt của LIKE (đi kèm ESCAPE '\\' trong câu SQL). */
+    private static String escapeLike(String s) {
+        return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+    }
+
+    /** 00:00 của ngày liền sau ngày chứa mốc thời gian đã cho (giờ địa phương). */
+    private static long nextDayMidnight(long millis) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(millis);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        return cal.getTimeInMillis();
     }
 
     // ---------------- GHI ----------------

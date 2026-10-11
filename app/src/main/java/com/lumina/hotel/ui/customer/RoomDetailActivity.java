@@ -325,7 +325,8 @@ public class RoomDetailActivity extends AppCompatActivity {
 
     private void bindReviewSummary(RoomType t, int[] starCounts) {
         binding.tvAvgRating.setText(String.format(Locale.getDefault(), "%.1f", t.getAvgRating()));
-        binding.tvTotalReviews.setText(t.getReviewCount() + " đánh giá");
+        binding.tvTotalReviews.setText(
+                getString(R.string.room_detail_total_reviews_format, t.getReviewCount()));
 
         binding.layoutStars.removeAllViews();
         int rounded = Math.round(t.getAvgRating());
@@ -427,8 +428,19 @@ public class RoomDetailActivity extends AppCompatActivity {
                 .setCalendarConstraints(constraints)
                 .build();
         picker.addOnPositiveButtonClickListener(selection -> {
-            checkIn = utcSelectionToLocalStartOfDay(selection.first);
-            checkOut = utcSelectionToLocalStartOfDay(selection.second);
+            long in = utcSelectionToLocalStartOfDay(selection.first);
+            long out = utcSelectionToLocalStartOfDay(selection.second);
+            if (out <= in) {
+                // Cùng ngày = 0 đêm → không mở thanh toán, và không giữ ngày sai trong biến
+                checkIn = 0;
+                checkOut = 0;
+                Snackbar.make(binding.getRoot(), R.string.room_detail_min_one_night,
+                                Snackbar.LENGTH_LONG)
+                        .setAnchorView(binding.layoutBottomBar).show();
+                return;
+            }
+            checkIn = in;
+            checkOut = out;
             openPayment();
         });
         picker.show(getSupportFragmentManager(), "date_range_picker");

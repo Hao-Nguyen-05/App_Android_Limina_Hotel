@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.lumina.hotel.R;
 import com.lumina.hotel.adapter.RecentBookingMiniAdapter;
 import com.lumina.hotel.data.dao.BookingDao;
 import com.lumina.hotel.data.dao.UserDao;
@@ -83,9 +84,25 @@ public class CustomerDetailBottomSheet extends BottomSheetDialogFragment {
         binding.tvDetailAvatar.setText(user.getInitial());
         binding.ivDetailVipStar.setVisibility(user.isVip() ? View.VISIBLE : View.GONE);
         binding.tvDetailName.setText(user.getFullName());
-        String contact = (user.getPhone() == null ? "" : user.getPhone())
-                + " · " + (user.getEmail() == null ? "" : user.getEmail());
-        binding.tvDetailContact.setText(contact);
+        binding.tvDetailContact.setText(buildContact(user.getPhone(), user.getEmail()));
+    }
+
+    /** Bỏ SĐT/email null, rỗng hoặc chữ "null"; thiếu cả hai thì hiện chuỗi "chưa có". */
+    private String buildContact(String phone, String email) {
+        String p = cleanContact(phone);
+        String e = cleanContact(email);
+        if (!p.isEmpty() && !e.isEmpty()) {
+            return getString(R.string.admin_customer_contact_format, p, e);
+        }
+        if (!p.isEmpty()) return p;
+        if (!e.isEmpty()) return e;
+        return getString(R.string.admin_customer_contact_empty);
+    }
+
+    private String cleanContact(String s) {
+        if (s == null) return "";
+        String t = s.trim();
+        return "null".equalsIgnoreCase(t) ? "" : t;
     }
 
     private void bindStats() {
