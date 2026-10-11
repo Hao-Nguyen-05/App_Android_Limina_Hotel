@@ -38,7 +38,15 @@ public class SessionManager {
                 .apply();
     }
 
-    public int getUserId()      { return prefs.getInt(KEY_USER_ID, NO_USER); }
+    public int getUserId() {
+        try {
+            return prefs.getInt(KEY_USER_ID, NO_USER);
+        } catch (ClassCastException e) {
+            // Dữ liệu phiên cũ sai kiểu: xoá phiên, bắt đăng nhập lại
+            prefs.edit().clear().apply();
+            return NO_USER;
+        }
+    }
     public String getRole()     { return prefs.getString(KEY_ROLE, DbContract.Role.CUSTOMER); }
     public String getFullName() { return prefs.getString(KEY_FULL_NAME, ""); }
     public String getEmail()    { return prefs.getString(KEY_EMAIL, ""); }
