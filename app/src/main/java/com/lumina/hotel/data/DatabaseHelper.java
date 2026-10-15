@@ -12,6 +12,7 @@ import com.lumina.hotel.data.DbContract.Role;
 import com.lumina.hotel.data.DbContract.RoomStatus;
 import com.lumina.hotel.util.DateUtils;
 import com.lumina.hotel.util.PriceUtils;
+import com.lumina.hotel.util.PasswordUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -336,7 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         v.put(DbContract.UserTable.FULL_NAME, name);
         v.put(DbContract.UserTable.EMAIL, email);
         v.put(DbContract.UserTable.PHONE, phone);
-        v.put(DbContract.UserTable.PASSWORD, pass);
+        v.put(DbContract.UserTable.PASSWORD, PasswordUtil.hash(pass));
         v.put(DbContract.UserTable.DOB, dob);
         v.put(DbContract.UserTable.ROLE, role);
         v.put(DbContract.UserTable.IS_VIP, vip ? 1 : 0);

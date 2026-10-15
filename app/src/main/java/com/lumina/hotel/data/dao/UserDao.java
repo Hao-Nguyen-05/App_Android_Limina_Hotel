@@ -12,6 +12,7 @@ import com.lumina.hotel.data.DatabaseHelper;
 import com.lumina.hotel.model.CustomerFilter;
 import com.lumina.hotel.model.CustomerStat;
 import com.lumina.hotel.model.User;
+import com.lumina.hotel.util.PasswordUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,19 +34,42 @@ public class UserDao {
 
     /**
      * Đăng nhập bằng email HOẶC số điện thoại.
+     * Mật khẩu lưu dạng băm (PBKDF2). Tài khoản cũ còn mật khẩu thô sẽ được
+     * kiểm tra như trước rồi tự băm lại ngay lúc đăng nhập thành công.
      * @return User nếu đúng, null nếu sai tài khoản hoặc mật khẩu.
      */
     public User login(String account, String password) {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        if (account == null || password == null) return null;
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        List<User> candidates = new ArrayList<>();
         Cursor c = null;
         try {
-            c = db.rawQuery(
-                    "SELECT * FROM users WHERE (email = ? OR phone = ?) AND password = ? LIMIT 1",
-                    new String[]{ account, account, password });
-            return c.moveToFirst() ? cursorToUser(c) : null;
+            c = db.rawQuery("SELECT * FROM users WHERE email = ? OR phone = ?",
+                    new String[]{ account, account });
+            while (c.moveToNext()) candidates.add(cursorToUser(c));
         } finally {
             if (c != null) c.close();
         }
+
+        for (User u : candidates) {
+            String stored = u.getPassword();
+            if (stored == null) continue; // tài khoản Google, không có mật khẩu
+
+            if (PasswordUtil.isHashed(stored)) {
+                if (PasswordUtil.verify(password, stored)) return u;
+            } else if (stored.equals(password)) {
+                // Mật khẩu cũ còn dạng thô: băm lại và ghi đè
+                String hashed = PasswordUtil.hash(password);
+                ContentValues v = new ContentValues();
+                v.put(UserTable.PASSWORD, hashed);
+                db.update(UserTable.TABLE_NAME, v, "id = ?",
+                        new String[]{ String.valueOf(u.getId()) });
+                u.setPassword(hashed);
+                return u;
+            }
+        }
+        return null;
     }
 
     public User getById(int userId) {
@@ -202,7 +226,9 @@ public class UserDao {
         v.put(UserTable.FULL_NAME, u.getFullName());
         v.put(UserTable.EMAIL, u.getEmail());
         v.put(UserTable.PHONE, u.getPhone());
-        v.put(UserTable.PASSWORD, u.getPassword());
+        String pw = u.getPassword();
+        if (pw != null && !PasswordUtil.isHashed(pw)) pw = PasswordUtil.hash(pw);
+        v.put(UserTable.PASSWORD, pw);
         v.put(UserTable.DOB, u.getDob());
         v.put(UserTable.AVATAR_URL, u.getAvatarUrl());
         v.put(UserTable.ROLE, u.getRole() == null ? DbContract.Role.CUSTOMER : u.getRole());
@@ -235,12 +261,22 @@ public class UserDao {
     }
 
     /** Đổi mật khẩu, chỉ thành công khi mật khẩu cũ khớp. @return số dòng bị sửa. */
+    /** Đổi mật khẩu, chỉ thành công khi mật khẩu cũ khớp. @return số dòng bị sửa (0 nếu sai mật khẩu cũ). */
     public int updatePassword(int userId, String oldPassword, String newPassword) {
+        User u = getById(userId);
+        if (u == null || u.getPassword() == null || oldPassword == null) return 0;
+
+        String stored = u.getPassword();
+        boolean ok = PasswordUtil.isHashed(stored)
+                ? PasswordUtil.verify(oldPassword, stored)
+                : stored.equals(oldPassword);
+        if (!ok) return 0;
+
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues v = new ContentValues();
-        v.put(UserTable.PASSWORD, newPassword);
-        return db.update(UserTable.TABLE_NAME, v, "id = ? AND password = ?",
-                new String[]{ String.valueOf(userId), oldPassword });
+        v.put(UserTable.PASSWORD, PasswordUtil.hash(newPassword));
+        return db.update(UserTable.TABLE_NAME, v, "id = ?",
+                new String[]{ String.valueOf(userId) });
     }
 
     public int setVip(int userId, boolean vip) {
