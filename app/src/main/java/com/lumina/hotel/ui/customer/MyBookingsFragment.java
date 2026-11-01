@@ -25,6 +25,8 @@ import com.lumina.hotel.data.dao.ReviewDao;
 import com.lumina.hotel.data.dao.RoomTypeDao;
 import com.lumina.hotel.databinding.FragmentBookingsBinding;
 import com.lumina.hotel.model.BookingWithDetail;
+import com.lumina.hotel.model.IntentKeys;
+import com.lumina.hotel.ui.admin.AdminBookingDetailActivity;
 import com.lumina.hotel.util.DateUtils;
 import com.lumina.hotel.util.SessionManager;
 
@@ -192,11 +194,10 @@ public class MyBookingsFragment extends Fragment implements BookingAdapter.Liste
 
     @Override
     public void onDetailClick(BookingWithDetail item) {
-        // Chưa dựng BookingDetailActivity riêng → điều hướng sang RoomDetailActivity
-        // của loại phòng đã đặt (đúng ghi chú "hoặc BookingDetailActivity nếu đã dựng" ở SPEC).
+        // Mở màn Chi tiết đơn (chỉ xem) của chính đơn được bấm.
         android.content.Intent intent = new android.content.Intent(requireContext(),
-                RoomDetailActivity.class);
-        intent.putExtra("room_type_id", item.getBooking().getRoomTypeId());
+                AdminBookingDetailActivity.class);
+        intent.putExtra(IntentKeys.EXTRA_BOOKING_ID, item.getBooking().getId());
         startActivity(intent);
     }
 

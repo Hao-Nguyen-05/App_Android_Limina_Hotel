@@ -97,6 +97,9 @@ public class BookingAdapter extends ListAdapter<BookingWithDetail, BookingAdapte
 
             b.getRoot().setAlpha(isCancelled ? 0.7f : 1f);
 
+            // Bấm vào cả thẻ → mở Chi tiết đơn (mọi trạng thái, kể cả Đang ở / Đã hoàn tất / Đã hủy).
+            b.getRoot().setOnClickListener(v -> listener.onDetailClick(item));
+
             // Nút phụ "Hủy đơn": chỉ pending mới cho hủy trước khi bấm vào (còn điều
             // kiện check_in trong tương lai được lọc từ trước khi truyền dữ liệu vào đây).
             b.btnCancel.setVisibility(isPending ? View.VISIBLE : View.GONE);

@@ -559,8 +559,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     ? BookingStatus.COMPLETED
                     : (checkIn < System.currentTimeMillis() ? BookingStatus.CHECKED_IN
                        : BookingStatus.CONFIRMED);
-            insertBooking(db, userIds[userIdx], typeIds[t], 0, prices[t],
+            long roomId = BookingStatus.CHECKED_IN.equals(status)
+                    ? pickFreeRoom(db, typeIds[t]) : 0;
+            insertBooking(db, userIds[userIdx], typeIds[t], roomId, prices[t],
                     checkIn, nights, 2, status, createdAt, methods[i % 3], true);
+        }
+    }
+
+    /**
+     * Chọn 1 phòng cùng loại, chưa gắn với đơn nào. Ưu tiên phòng đang ở (occupied);
+     * nếu loại đó hết thì lấy phòng bất kỳ của loại. Trả 0 nếu không còn phòng.
+     */
+    private long pickFreeRoom(SQLiteDatabase db, long typeId) {
+        String notUsed = " AND id NOT IN (SELECT room_id FROM bookings WHERE room_id IS NOT NULL)";
+        long id = queryFirstId(db,
+                "SELECT id FROM rooms WHERE room_type_id = ? AND room_status = 'occupied'"
+                        + notUsed + " ORDER BY id LIMIT 1", typeId);
+        if (id > 0) return id;
+        return queryFirstId(db,
+                "SELECT id FROM rooms WHERE room_type_id = ?" + notUsed + " ORDER BY id LIMIT 1",
+                typeId);
+    }
+
+    private long queryFirstId(SQLiteDatabase db, String sql, long typeId) {
+        android.database.Cursor c = null;
+        try {
+            c = db.rawQuery(sql, new String[]{ String.valueOf(typeId) });
+            return c.moveToFirst() ? c.getLong(0) : 0;
+        } finally {
+            if (c != null) c.close();
         }
     }
 
