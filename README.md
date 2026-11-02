@@ -2,7 +2,7 @@
 
 Ứng dụng Android đặt phòng khách sạn với hai vai trò **Khách** và **Admin**, viết bằng **Java** và **SQLite thuần** (`SQLiteOpenHelper`, không dùng Room, không dùng Kotlin). Giao diện theo phong cách Navy / Gold / Cream.
 
-> Đồ án môn Phát triển ứng dụng di động — **[Họ tên] · [MSSV] · [Lớp] · GVHD: [Tên giảng viên]**
+> Đồ án môn Phát triển ứng dụng di động
 
 <!--
 ## Ảnh chụp màn hình
